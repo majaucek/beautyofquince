@@ -14,9 +14,373 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20260827b">
+<style>
+/* Beauty of Quince - stilovi */
+:root{
+  --ink:#17130F; --cream:#FBF8F4; --beige:#F1E7DA; --acc:#A87B4A; --acc-d:#7E5A2E;
+  --line:rgba(23,19,15,0.12); --mut:#6E6155; --soft:#8B7E70; --gold:#E9D9B9; --gold-d:#C0A279;
+  --serif:'Cormorant Garamond',Georgia,serif; --sans:'Jost',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+html{scroll-behavior:auto}
+body{background:var(--cream);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--acc);text-decoration:none}
+a:hover{color:var(--acc-d)}
+img{max-width:100%}
+button{font-family:inherit;font-size:16px}
+input,select,textarea{font-family:inherit;font-size:16px}
+::selection{background:#E5D6C3}
+
+@keyframes bqmarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes bqfade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes bqrise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes bqflipN{0%{opacity:.2;transform:perspective(1600px) rotateY(-11deg) translateX(34px)}100%{opacity:1;transform:none}}
+@keyframes bqflipP{0%{opacity:.2;transform:perspective(1600px) rotateY(11deg) translateX(-34px)}100%{opacity:1;transform:none}}
+
+/* --- nav --- */
+.navbar{position:fixed;top:14px;left:0;right:0;z-index:300;display:flex;justify-content:center;padding:0 14px;pointer-events:none}
+.nav{pointer-events:auto;width:100%;max-width:1120px;background:rgba(251,248,244,.94);backdrop-filter:saturate(140%) blur(6px);border:1px solid rgba(23,19,15,.1);border-radius:999px;box-shadow:0 14px 34px rgba(23,19,15,.13),0 2px 6px rgba(23,19,15,.05);display:flex;align-items:center;gap:18px;padding:10px 14px 10px 20px}
+.brand{display:flex;align-items:center;gap:10px;flex:0 0 auto;color:var(--ink)}
+.brand img{width:36px;height:36px;border-radius:50%;object-fit:cover;object-position:50% 42%}
+.brand span{font-family:var(--serif);font-size:20px;font-weight:600;letter-spacing:.01em;white-space:nowrap}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-link{background:none;border:0;cursor:pointer;font-size:14.5px;color:var(--ink);padding:8px 12px;border-radius:999px;display:flex;align-items:center;gap:6px;letter-spacing:.01em;transition:background .2s,color .2s}
+.nav-link:hover{background:#F7F0E6}
+.nav-link.act{background:var(--beige);color:var(--acc-d);box-shadow:inset 0 0 0 1px rgba(168,123,74,.35)}
+.nav-spacer{flex:1 1 auto}
+.flags{display:flex;align-items:center;gap:6px;flex:0 0 auto}
+.flag{background:none;border:1px solid transparent;border-radius:999px;padding:5px;cursor:pointer;line-height:0;opacity:.5;transition:opacity .2s}
+.flag.on{background:var(--beige);border-color:rgba(168,123,74,.5);opacity:1}
+.flag img{width:22px;height:22px;border-radius:3px;display:block}
+.nav-phone{display:flex;align-items:center;gap:8px;font-size:14.5px;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:8px 14px}
+.burger{display:none;flex-direction:column;gap:4px;background:none;border:1px solid var(--line);border-radius:999px;padding:10px 11px;cursor:pointer}
+.burger i{display:block;width:18px;height:1.5px;background:var(--ink)}
+.dd{position:absolute;top:36px;left:-14px;width:330px;background:var(--cream);border:1px solid rgba(23,19,15,.12);border-radius:14px;padding:8px;box-shadow:0 18px 40px rgba(23,19,15,.14);animation:bqfade .16s ease-out}
+.dd a{display:block;width:100%;text-align:left;padding:9px 12px;border-radius:9px;font-size:14px;color:var(--ink);transition:background .15s,padding-left .15s}
+.dd a:hover{background:var(--beige);padding-left:16px;color:var(--ink)}
+.scrim{position:fixed;inset:0;z-index:290;background:rgba(23,19,15,.35)}
+.msheet{position:fixed;top:78px;left:14px;right:14px;z-index:295;background:var(--cream);border:1px solid rgba(23,19,15,.12);border-radius:20px;padding:14px;box-shadow:0 20px 50px rgba(23,19,15,.18);animation:bqfade .18s ease-out;max-height:76vh;overflow-y:auto}
+.m-link{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;background:none;border:0;text-align:left;padding:13px 14px;font-size:17px;color:var(--ink);cursor:pointer;border-bottom:1px solid rgba(23,19,15,.08)}
+.m-sub{display:block;width:100%;background:none;border:0;text-align:left;padding:9px 14px 9px 28px;font-size:14px;color:var(--mut);cursor:pointer}
+.m-chev{display:flex;align-items:center;line-height:0;flex:0 0 auto;transition:transform .22s}
+.m-chev.open{transform:rotate(180deg)}
+.m-call{display:block;margin-top:10px;padding:14px;text-align:center;background:var(--ink);color:var(--cream);border-radius:8px;font-size:15px;letter-spacing:.02em}
+.m-call:hover{color:var(--cream)}
+
+/* --- layout --- */
+.sec{padding:104px 24px}
+.sec--beige{background:var(--beige)}
+.sec--dark{background:var(--ink)}
+.sec--top{padding:160px 24px 40px}
+.sec--notop{padding:24px 24px 104px}
+.wrap{max-width:1100px;margin:0 auto}
+.wrap-narrow{max-width:760px;margin:0 auto}
+.grid2{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.grid2-tight{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;margin-top:10px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:34px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:38px}
+.offer-split{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:.82fr 1.18fr;gap:68px;align-items:start}
+.rev-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:32px;margin-top:36px;align-items:start}
+.gal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.foot-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:48px}
+
+/* --- type --- */
+h1,h2,h3,h4{margin:0}
+.h1{font-family:var(--serif);font-weight:600;font-size:62px;line-height:1.04;letter-spacing:-.015em;margin:0 0 22px;max-width:20ch;text-wrap:pretty}
+.h1--light{color:var(--cream);text-shadow:0 2px 24px rgba(0,0,0,.35)}
+.h1s{font-family:var(--serif);font-weight:600;font-size:54px;line-height:1.08;margin:0 0 18px}
+.h2{font-family:var(--serif);font-weight:600;font-size:43px;line-height:1.12;letter-spacing:-.01em;margin:0 0 18px;max-width:24ch;text-wrap:pretty}
+.h2--light{color:var(--cream);margin:0}
+.h3{font-family:var(--serif);font-weight:600;font-size:28px;line-height:1.2;margin:0}
+.h4{font-family:var(--serif);font-weight:600;font-size:21px;line-height:1.25;margin:0 0 10px}
+.p{font-size:17.5px;line-height:1.75;color:var(--mut);max-width:62ch;margin:0 0 16px}
+.p-sm{font-size:15px;line-height:1.7;color:var(--mut);margin:0}
+.lead{font-size:19px;line-height:1.65;color:#4A4038;max-width:54ch;margin:0}
+.lead--light{color:rgba(251,248,244,.86);max-width:56ch}
+.eyebrow{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--acc);font-weight:500;margin:0 0 16px}
+.eyebrow--light{color:#C9A97A}
+.quote{font-family:var(--serif);font-size:24px;font-style:italic;color:var(--acc);line-height:1.4}
+.note{font-size:15px;color:var(--ink);border-left:2px solid var(--acc);padding-left:14px;margin:22px 0 0}
+
+/* --- buttons --- */
+.btn{background:var(--ink);color:var(--cream);border:0;border-radius:8px;padding:16px 28px;font-size:16px;letter-spacing:.02em;cursor:pointer;transition:transform .2s,box-shadow .2s;display:inline-block}
+.btn:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(23,19,15,.25);color:var(--cream)}
+.btn--light{background:var(--gold);color:#241C12;padding:15px 26px;font-size:15.5px}
+.btn--light:hover{color:#241C12;box-shadow:0 16px 32px rgba(0,0,0,.3)}
+.btn--sm{padding:12px 20px;font-size:14.5px}
+.pager{background:none;border:1px solid var(--line);border-radius:8px;padding:10px 16px;font-size:13.5px;color:var(--ink);cursor:pointer;transition:border-color .2s}
+.pager:hover{border-color:rgba(168,123,74,.6)}
+.arrow{background:none;border:1px solid var(--line);border-radius:999px;width:44px;height:44px;font-size:16px;color:var(--ink);cursor:pointer;transition:background .2s}
+.arrow:hover{background:var(--beige)}
+.arrow--sm{border-radius:8px;width:32px;height:32px;font-size:13px}
+.fab{position:fixed;right:24px;bottom:24px;z-index:250;display:flex;align-items:center;gap:9px;background:var(--ink);color:var(--cream);border:1px solid rgba(251,248,244,.2);border-radius:999px;padding:15px 22px;font-size:15px;cursor:pointer;box-shadow:0 12px 30px rgba(23,19,15,.3);transition:transform .2s,box-shadow .2s}
+.fab:hover{transform:translateY(-3px);box-shadow:0 18px 38px rgba(23,19,15,.4)}
+
+/* --- hero --- */
+.hero{position:relative;overflow:hidden;display:flex;align-items:flex-end;min-height:760px;padding:190px 24px 96px;background:var(--ink)}
+.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.hero .ov1{position:absolute;inset:0;background:linear-gradient(100deg,rgba(18,14,10,.9) 0%,rgba(18,14,10,.74) 44%,rgba(18,14,10,.32) 100%)}
+.hero .ov2{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,14,10,.5) 0%,rgba(18,14,10,.12) 38%,rgba(18,14,10,.92) 100%)}
+.hero-in{position:relative;z-index:2;width:100%;max-width:1100px;margin:0 auto}
+.badges{display:flex;flex-wrap:wrap;gap:10px;margin:28px 0 32px}
+.badge{border:1px solid rgba(251,248,244,.3);border-radius:999px;padding:8px 15px;font-size:13px;color:rgba(251,248,244,.9);background:rgba(251,248,244,.08);backdrop-filter:blur(3px)}
+.wave{line-height:0;background:var(--ink)}
+.wave svg{display:block;width:100%;height:70px}
+
+/* --- images --- */
+.img-tall{border-radius:10px;overflow:hidden;border:1px solid var(--line);aspect-ratio:4/4.2;box-shadow:0 18px 40px rgba(23,19,15,.1)}
+.img-wide{border-radius:10px;overflow:hidden;border:1px solid var(--line);aspect-ratio:16/10;margin-top:22px}
+.img-tall img,.img-wide img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* --- cards --- */
+.cred-card{background:#FFFDFA;border:1px solid var(--line);border-radius:12px;padding:24px 22px;transition:transform .25s,box-shadow .25s,border-color .25s}
+.cred-card:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(23,19,15,.1);border-color:rgba(168,123,74,.45)}
+.ico{width:42px;height:42px;border-radius:50%;background:var(--beige);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.cred-hl{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);margin:14px 0 0;border-top:1px solid rgba(168,123,74,.28);padding-top:12px}
+.check-list>div{display:flex;gap:14px;align-items:flex-start;padding:16px 0;border-bottom:1px solid rgba(23,19,15,.1);font-size:17px;line-height:1.55;color:#2C251E}
+.check-list svg{flex:0 0 auto;margin-top:4px}
+.pt-list{display:flex;flex-direction:column;gap:10px;margin:22px 0 0}
+.pt-list div{display:flex;gap:11px;align-items:flex-start;font-size:15.5px;line-height:1.5;color:#2C251E}
+.pt-list svg{flex:0 0 auto;margin-top:4px}
+.offer-row{display:flex;gap:22px;align-items:flex-start;padding:24px 0;border-top:1px solid rgba(23,19,15,.16)}
+.offer-num{font-family:var(--serif);font-size:32px;font-weight:600;color:var(--gold-d);line-height:1;flex:0 0 auto;width:52px;padding-top:2px}
+.offer-row h3{font-family:var(--serif);font-size:24px;font-weight:600;line-height:1.2;margin:0 0 8px}
+.band{position:relative;overflow:hidden;background:var(--ink);padding:128px 24px}
+.band>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.band .ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,14,10,.78) 0%,rgba(18,14,10,.62) 50%,rgba(18,14,10,.82) 100%)}
+.band-in{position:relative;z-index:2;max-width:760px;margin:0 auto;text-align:center}
+.band-q{font-family:var(--serif);font-size:38px;font-style:italic;font-weight:500;line-height:1.28;color:var(--cream);margin:0 0 30px}
+.prod-card{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#FFFDFA;transition:transform .25s,box-shadow .25s}
+.prod-card:hover{transform:translateY(-4px);box-shadow:0 18px 36px rgba(23,19,15,.1)}
+.prod-card img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+.prod-card h3{font-family:var(--serif);font-size:22px;font-weight:600;line-height:1.2;margin:0 0 8px}
+.rate-card{background:var(--cream);border:1px solid var(--line);border-radius:10px;padding:26px}
+.rate-big{display:block;font-family:var(--serif);font-size:58px;font-weight:600;line-height:1;color:var(--ink)}
+.rate-lbl{display:block;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin-top:8px}
+.bar{height:5px;border-radius:999px;background:#E5D6C3;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--acc);border-radius:999px;transition:width .8s ease}
+.rev-card{background:var(--cream);border:1px solid var(--line);border-radius:10px;padding:22px;display:flex;gap:16px;align-items:flex-start;transition:transform .2s,box-shadow .2s}
+.rev-card:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(23,19,15,.09)}
+.rev-card img{width:46px;height:46px;border-radius:50%;object-fit:cover;flex:0 0 auto}
+
+/* --- popular marquee --- */
+.mq-mask{overflow:hidden;padding:8px 0 6px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.mq{display:flex;gap:20px;width:max-content;animation:bqmarquee 92s linear infinite}
+.mq:hover{animation-play-state:paused}
+.pop{position:relative;width:318px;min-height:430px;flex:0 0 auto;border-radius:12px;overflow:hidden;border:1px solid rgba(233,217,185,.5);background:var(--cream);display:flex;flex-direction:column;cursor:pointer;box-shadow:0 16px 36px rgba(0,0,0,.32);transition:transform .28s,box-shadow .28s;text-align:left}
+.pop:hover{transform:translateY(-6px);box-shadow:0 26px 54px rgba(0,0,0,.45)}
+.pop-img{position:relative;height:215px;flex:0 0 auto;overflow:hidden;background:#EFE4D6}
+.pop-img img{width:100%;height:100%;object-fit:cover;display:block}
+.pop-pill{position:absolute;top:12px;left:12px;background:rgba(251,248,244,.94);color:#3A2C17;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;padding:5px 10px;border-radius:999px}
+.pop-body{padding:18px 20px 20px;display:flex;flex-direction:column;flex:1 1 auto}
+.pop-cat{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--acc);margin:0 0 8px}
+.pop h3{font-family:var(--serif);font-size:24px;font-weight:600;line-height:1.15;margin:0 0 8px}
+.pop-desc{font-size:13.5px;line-height:1.5;color:var(--mut);margin:0 0 16px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.pop-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding-top:12px;font-size:13px}
+.pop-foot span:last-child{font-size:12px;color:var(--acc);white-space:nowrap}
+.hatch{position:absolute;inset:0;background:repeating-linear-gradient(135deg,#E7DACA 0 12px,#DFD0BC 12px 24px)}
+
+/* --- price list --- */
+.price-col{max-width:940px;margin:0 auto}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0 22px}
+.price-head .p{max-width:60ch;margin:10px 0 0}
+.tab{background:none;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:9px 16px;font-size:13.5px;cursor:pointer;letter-spacing:.01em;transition:background .2s,color .2s}
+.tab:hover{border-color:rgba(168,123,74,.6)}
+.tab.on{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+.book{display:block;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#FFFDFA;box-shadow:0 18px 44px rgba(23,19,15,.09)}
+.book.fl-n{animation:bqflipN .5s cubic-bezier(.22,.7,.25,1) both;transform-origin:left center}
+.book.fl-p{animation:bqflipP .5s cubic-bezier(.22,.7,.25,1) both;transform-origin:right center}
+.book-left{position:relative;min-width:0;height:320px;display:flex;background:#EFE4D6}
+.book-left>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.book-left .ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,16,12,0) 40%,rgba(20,16,12,.75) 100%)}
+.book-left .cap{position:relative;z-index:2;margin-top:auto;padding:26px}
+.book-left .cap p{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(251,248,244,.75);margin:0 0 8px}
+.book-left .cap h3{font-family:var(--serif);font-size:30px;font-weight:600;line-height:1.1;color:var(--cream);margin:0}
+.book-right{padding:28px 34px 30px;min-width:0;display:flex;flex-direction:column}
+.book-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-bottom:14px;border-bottom:1px solid rgba(23,19,15,.14)}
+.book-head h3{font-family:var(--serif);font-size:26px;font-weight:600;margin:0 0 6px}
+.hint{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--soft);margin:0}
+.book-list{max-height:560px;overflow-y:auto;overflow-x:hidden;padding:4px 4px 4px 0;margin:4px 0 16px;flex:1 1 auto;min-width:0}
+.row{padding:18px 10px 18px 12px;margin-bottom:2px;border-bottom:1px solid rgba(23,19,15,.09);transition:background .2s}
+.row.sel{background:rgba(168,123,74,.07);border-radius:8px}
+.row-top{display:flex;gap:13px;align-items:flex-start;cursor:pointer}
+.box{flex:0 0 auto;width:20px;height:20px;margin-top:2px;border-radius:5px;border:1.5px solid rgba(23,19,15,.28);background:#FFFDFA;display:flex;align-items:center;justify-content:center;transition:background .18s,border-color .18s}
+.row.sel .box{background:var(--ink);border-color:var(--ink)}
+.row-name{flex:1 1 auto;min-width:0}
+.row-name>p{font-size:16px;line-height:1.35;margin:0}
+.row-right{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:5px;text-align:right;padding-left:8px}
+.row-price{font-size:15.5px;white-space:nowrap}
+.row-dur{display:flex;align-items:center;gap:5px;font-size:12.5px;color:var(--soft);white-space:nowrap}
+.row-name .off{display:inline-flex;align-items:center;gap:8px;margin-top:8px}
+.row-name .off b{font-weight:400;font-size:12px;color:#2F7A55;border:1px solid rgba(47,122,85,.35);background:rgba(47,122,85,.08);border-radius:999px;padding:3px 9px}
+.row-name .off s{font-size:13px;color:#A79A8B}
+.row-desc{margin-top:9px;padding-left:33px}
+.row-desc p{font-size:14.5px;line-height:1.65;color:var(--mut);margin:0}
+.row-desc p.clamp{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.more{background:none;border:0;padding:0;margin-top:6px;font-size:13px;color:var(--acc);cursor:pointer;border-bottom:1px solid rgba(168,123,74,.35)}
+.row-book{margin-top:14px;padding-left:33px;animation:bqrise .24s ease-out}
+.pagers{display:flex;align-items:center;justify-content:center;gap:14px;padding-top:18px;border-top:1px solid rgba(23,19,15,.14)}
+.pg{display:flex;align-items:center;justify-content:center;flex:0 0 auto;width:46px;height:46px;border-radius:999px;border:1px solid var(--line);background:none;color:var(--ink);cursor:pointer;transition:background .2s,border-color .2s}
+.pg:hover{background:var(--beige);border-color:rgba(168,123,74,.6)}
+
+/* --- faq --- */
+.faq{display:flex;flex-direction:column;gap:10px}
+.faq-item{border:1px solid var(--line);border-radius:10px;background:transparent;transition:border-color .2s,background .2s}
+.faq-item.on{border-color:rgba(168,123,74,.45);background:#FFFDFA}
+.faq-q{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;width:100%;background:none;border:0;padding:18px 20px;cursor:pointer;text-align:left;font-size:16.5px;line-height:1.4;color:var(--ink)}
+.faq-sign{font-size:22px;line-height:1;color:var(--acc);flex:0 0 auto;transition:transform .25s}
+.faq-item.on .faq-sign{transform:rotate(45deg)}
+.faq-a{font-size:15.5px;line-height:1.75;color:var(--mut);margin:0;padding:0 20px 20px;animation:bqrise .24s ease-out}
+
+/* --- contact / forms --- */
+.hours div{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid rgba(23,19,15,.1);font-size:16px}
+.hours span:first-child{color:#4A4038}
+.map{border:1px solid var(--line);border-radius:10px;overflow:hidden;min-height:360px;background:#EFE4D6}
+.map iframe{width:100%;height:100%;min-height:360px;border:0;display:block}
+.c-rows{display:flex;flex-direction:column;gap:10px;margin:4px 0 30px}
+.c-row{display:flex;gap:14px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:15px 18px;background:#FFFDFA;transition:background .2s,border-color .2s;color:var(--ink)}
+.c-row:hover{border-color:rgba(168,123,74,.5);background:#F7F0E6;color:var(--ink)}
+.c-lbl{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);margin-bottom:4px}
+.c-val{display:block;font-size:16px;color:var(--ink);word-break:break-word}
+.form-card{background:#F7F0E6;border:1px solid var(--line);border-radius:12px;padding:32px}
+.form{display:flex;flex-direction:column;gap:16px;margin-top:20px}
+.label{display:flex;flex-direction:column;gap:7px;font-size:13px;letter-spacing:.02em;color:#4A4038}
+.input{border:1px solid var(--line);border-radius:8px;padding:13px 14px;background:#FFFDFA;color:var(--ink);width:100%}
+.input:focus{outline:0;border-color:rgba(168,123,74,.6)}
+.err{font-size:13px;color:#B03A2E;margin:0;min-height:18px}
+.ok{border:1px solid rgba(47,122,85,.35);background:rgba(47,122,85,.07);border-radius:10px;padding:26px;font-size:16px;color:#2F7A55;margin-top:18px}
+
+/* --- booking modal --- */
+.ovl{position:fixed;inset:0;z-index:400;background:rgba(23,19,15,.55);display:flex;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto}
+.modal{width:100%;max-width:680px;background:var(--cream);border-radius:14px;padding:32px;margin:60px 0 40px;box-shadow:0 30px 70px rgba(23,19,15,.35);animation:bqrise .28s ease-out}
+.modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:22px}
+.modal-head h3{font-family:var(--serif);font-size:28px;font-weight:600}
+.x{background:none;border:0;font-size:30px;line-height:1;color:var(--mut);cursor:pointer}
+.bars{display:flex;gap:6px;margin-bottom:26px}
+.bars i{flex:1;height:3px;border-radius:999px;background:rgba(23,19,15,.15)}
+.bars i.on{background:var(--ink)}
+.chosen{border:1px solid rgba(23,19,15,.14);border-radius:10px;padding:18px;background:#FFFDFA;margin-bottom:26px}
+.chosen p:first-child{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);margin:0 0 8px}
+.chosen .nm{font-size:17px;line-height:1.35;margin:0 0 10px}
+.chosen .meta{display:flex;flex-wrap:wrap;gap:16px;font-size:14px;color:var(--mut)}
+.field-h{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--soft);margin:0 0 10px}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:stretch}
+.day{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;min-height:100px;gap:3px;padding:12px 6px;border:1px solid var(--line);border-radius:10px;cursor:pointer;background:#FFFDFA;color:var(--ink);transition:background .2s,color .2s,border-color .2s}
+.day b{font-size:20px;line-height:1.2;font-family:var(--serif);font-weight:600}
+.day u{font-size:11px;line-height:1.3;letter-spacing:.1em;text-transform:uppercase;opacity:.7;text-decoration:none}
+.day i{font-size:10px;opacity:.7;font-style:normal;line-height:1.3;min-height:13px;white-space:nowrap}
+.day.off{cursor:not-allowed;background:rgba(23,19,15,.04);color:#B3A897;opacity:.7}
+.day.on{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+.slots{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}
+.slot{border:1px solid var(--line);border-radius:8px;padding:10px 4px;font-size:14px;cursor:pointer;background:#FFFDFA;color:var(--ink);transition:background .15s,color .15s}
+.slot.taken{cursor:not-allowed;background:rgba(23,19,15,.05);color:#B3A897;text-decoration:line-through}
+.slot.on{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+.staff{display:flex;flex-direction:column;gap:8px}
+.staff-opt{display:flex;align-items:center;gap:12px;width:100%;border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:#FFFDFA;color:var(--ink);cursor:pointer;transition:background .2s,border-color .2s;font-size:15px;text-align:left}
+.staff-opt.on{border-color:var(--ink);background:rgba(168,123,74,.08)}
+.staff-opt i{width:16px;height:16px;border-radius:50%;border:1.5px solid rgba(23,19,15,.3);flex:0 0 auto}
+.staff-opt.on i{background:var(--ink);border-color:var(--ink);box-shadow:inset 0 0 0 3px #FFFDFA}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.row-btns{margin-top:26px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.done{text-align:center;padding:20px 0}
+.done .circle{width:56px;height:56px;border-radius:50%;border:1px solid #2F7A55;display:flex;align-items:center;justify-content:center;margin:0 auto 22px}
+.done h3{font-family:var(--serif);font-size:30px;font-weight:600;margin:0 0 14px}
+
+/* --- gallery --- */
+.folder{position:relative;aspect-ratio:4/3;border-radius:10px;overflow:hidden;border:1px solid var(--line);cursor:pointer;background:#EFE4D6;display:flex;transition:box-shadow .25s}
+.folder:hover{box-shadow:0 20px 40px rgba(23,19,15,.18)}
+.folder>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.folder .ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,16,12,0) 45%,rgba(20,16,12,.78) 100%)}
+.folder .cap{position:relative;z-index:2;margin-top:auto;padding:20px}
+.folder h3{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--cream);margin:0 0 4px;line-height:1.15}
+.folder p{font-size:12px;color:rgba(251,248,244,.75);margin:0}
+.gal-grid img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px;cursor:pointer;display:block;border:1px solid rgba(23,19,15,.1)}
+.empty{border:1px dashed rgba(23,19,15,.2);border-radius:10px;padding:60px 24px;text-align:center;font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.1em;color:var(--soft)}
+.lb{position:fixed;inset:0;z-index:420;background:rgba(23,19,15,.9);display:flex;align-items:center;justify-content:center;padding:24px;cursor:zoom-out;animation:bqfade .18s ease-out}
+.lb img{max-width:min(1100px,92vw);max-height:88vh;border-radius:6px;display:block}
+.lb button{position:fixed;top:20px;right:24px;background:none;border:0;color:var(--cream);font-size:34px;cursor:pointer;line-height:1}
+
+/* --- footer --- */
+.foot{background:var(--ink);color:rgba(251,248,244,.72);padding:64px 24px 40px}
+.foot-brand{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.foot-brand img{width:38px;height:38px;border-radius:50%;object-fit:cover;object-position:50% 42%}
+.foot-brand span{font-family:var(--serif);font-size:22px;color:var(--cream)}
+.foot-h{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#C9A97A;margin:0 0 14px}
+.foot a{color:rgba(251,248,244,.72)}
+.foot a:hover{color:var(--gold)}
+.foot-links a{display:block;font-size:14px;padding:0 0 8px;line-height:1.5}
+.foot-bot{border-top:1px solid rgba(251,248,244,.16);margin-top:40px;padding-top:20px;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;font-size:13px}
+
+/* --- reveal --- */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .75s cubic-bezier(.2,.7,.3,1),transform .75s cubic-bezier(.2,.7,.3,1)}
+.rv.in{opacity:1;transform:none}
+.rv-s{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.rv-s.in{opacity:1;transform:none}
+
+/* --- responsive --- */
+@media (max-width:999px){
+  .grid2,.grid2-tight,.offer-split,.rev-grid{grid-template-columns:1fr;gap:34px}
+  .grid3{grid-template-columns:1fr 1fr}
+  .grid4{grid-template-columns:1fr 1fr}
+  .gal-grid{grid-template-columns:repeat(3,1fr)}
+  .price-col{max-width:100%}
+  .book-list{max-height:none;overflow-y:visible}
+  .img-tall{aspect-ratio:4/3}
+  .h1{font-size:48px}
+  .h2{font-size:36px}
+}
+@media (max-width:767px){
+  .sec{padding:68px 18px}
+  .sec--top{padding:120px 18px 34px}
+  .sec--notop{padding:20px 18px 68px}
+  .hero{min-height:600px;padding:130px 18px 56px}
+  .band{padding:86px 18px}
+  .nav{gap:10px;padding:9px 12px 9px 14px}
+  .nav-links,.nav-phone{display:none}
+  .burger{display:flex}
+  .brand span{display:none}
+  .h1{font-size:38px}
+  .h1s{font-size:36px}
+  .h2{font-size:29px}
+  .h3{font-size:23px}
+  .band-q{font-size:27px}
+  .p{font-size:16px}
+  .lead{font-size:17px}
+  .grid3,.grid4,.grid2,.grid2-tight,.offer-split{grid-template-columns:1fr;gap:26px}
+  .gal-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .book-right{padding:22px 16px}
+  .book-left{height:230px}
+  .book-left .cap{padding:18px}
+  .book-left .cap h3{font-size:26px}
+  .book{border-radius:12px}
+  .tabs{margin:20px 0}
+  .pg{width:42px;height:42px}
+  .offer-num{font-size:26px;width:38px}
+  .offer-row{gap:16px;padding:20px 0}
+  .foot-grid{grid-template-columns:1fr;gap:34px}
+  .pop{width:278px;min-height:400px}
+  .pop-img{height:190px}
+  .modal{padding:22px 18px}
+  .days{gap:5px}
+  .day{padding:9px 2px;min-height:86px}
+  .slots{grid-template-columns:repeat(3,1fr)}
+  .form-grid{grid-template-columns:1fr}
+  .fab{right:14px;bottom:14px;padding:14px 18px;font-size:14px}
+  .map,.map iframe{min-height:280px}
+}
+
+#splash{position:fixed;inset:0;z-index:9999;background:#F3EADF;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .4s ease}
+#splash img{width:84px;height:84px;border-radius:50%;object-fit:cover;object-position:50% 42%;box-shadow:0 12px 34px rgba(23,19,15,.16);animation:bqbreathe 1.6s ease-in-out infinite alternate}
+#splash b{font-family:'Cormorant Garamond',Georgia,serif;font-size:23px;font-weight:500;letter-spacing:.03em;color:#17130F}
+#splash i{display:block;width:38px;height:1px;background:rgba(23,19,15,.28);font-size:0}
+#splash.off{opacity:0;pointer-events:none}
+@keyframes bqbreathe{from{opacity:.6;transform:scale(.97)}to{opacity:1;transform:scale(1)}}
+
+</style>
 </head>
 <body data-page="home">
+<div id="splash"><img src="uploads/60807389_444381906365035_741365162639884288_n.jpg" alt="Beauty of Quince"><b>Beauty of Quince</b><i>&middot;</i></div>
 <div id="app"></div>
 <noscript>
   <div style="padding:40px 24px;max-width:700px;margin:0 auto;font-family:system-ui,sans-serif">
@@ -26,7 +390,1380 @@
     <p>Radno vreme: ponedeljak - petak 10:00 - 20:00, subota 10:00 - 16:00.</p>
   </div>
 </noscript>
-<script src="data.js?v=20260827b"></script>
-<script src="site.js?v=20260827b"></script>
+<script>
+/* Beauty of Quince - podaci (sr / en). Generisano iz projekta. */
+(function(){
+// Beauty of Quince - sadrzaj sajta (sr / en)
+const INFO = {
+  phone: "061 2540589",
+  phoneHref: "tel:+381612540589",
+  email: "beautyofquince@gmail.com",
+  address: "Bulevar kralja Aleksandra 149/4, 2. sprat, stan 4, 11050 Beograd",
+  area: { s: "Zvezdara, kod Vukovog spomenika i Đerma", e: "Zvezdara, near Vukov spomenik and Đeram" },
+  maps: "https://www.google.com/maps/place/Beauty+of+Quince+kozmeti%C4%8Dki+salon/@44.7997707,20.4894379,16z",
+  mapEmbed: "https://www.google.com/maps?q=Beauty+of+Quince+kozmeti%C4%8Dki+salon,+Bulevar+kralja+Aleksandra+149,+Beograd&output=embed",
+  hours: [
+    { d: { s: "Ponedeljak - Petak", e: "Monday - Friday" }, h: "10:00 - 20:00" },
+    { d: { s: "Subota", e: "Saturday" }, h: "10:00 - 16:00" },
+    { d: { s: "Nedelja", e: "Sunday" }, h: { s: "zatvoreno", e: "closed" } }
+  ],
+  founded: 2017
+};
+
+const RATINGS = {
+  overall: "9,8",
+  rows: [
+    { l: { s: "Usluga", e: "Service" }, v: 9.8 },
+    { l: { s: "Cena / kvalitet", e: "Price / quality" }, v: 9.8 },
+    { l: { s: "Higijena", e: "Hygiene" }, v: 9.9 },
+    { l: { s: "Ambijent", e: "Atmosphere" }, v: 9.8 }
+  ]
+};
+
+const REVIEWS = [
+  { name: "Aleksandra Dadić Batković", img: "uploads/Aleksandra%20Dadic%20Batkovic.png",
+    t: { s: "Trepavice urađene do savršenstva.", e: "Lashes done to perfection." } },
+  { name: "Aleksa Berisavac", img: "uploads/Aleksa%20Berisavac.png",
+    t: { s: "Ljubazno i vešto osoblje za mušku depilaciju.", e: "Kind and skilled staff for men's waxing." } },
+  { name: "Vesna Pešić", img: "uploads/Vesna%20Pesic.png",
+    t: { s: "Prijatan ambijent, usluga 10, vlasnik je maksimalno posvećen klijentu i profesionalan. Sve preporuke.", e: "Pleasant space, service is a ten, the owner is fully dedicated to the client and professional. Full recommendation." } }
+];
+
+const STAFF = [
+  { id: "jelena", name: "Jelena Đorđević-Nedić", img: "uploads/Jelena%20Djordjevic%20Nedic.png",
+    role: { s: "Vlasnica i kozmetičarka", e: "Owner and beautician" } }
+];
+
+const PRODUCTS = [
+  { img: "uploads/Slika%201.png", n: "Glavzdrav Professional Original Liquid",
+    u: { s: "Koncentrati za bore, tonus, suvu i dehidriranu kožu, strije, ožiljke, aknoznu kožu i gubitak kose.", e: "Concentrates for wrinkles, skin tone, dry and dehydrated skin, stretch marks, scars, acne-prone skin and hair loss." } },
+  { img: "uploads/Slika%202.png", n: "Sothys Hydra3Ha krema",
+    u: { s: "Hijaluronska hidratantna krema za lice, za suvu i dehidriranu kožu.", e: "Hyaluronic moisturising face cream for dry and dehydrated skin." } },
+  { img: "uploads/Slika%203.png", n: "Sothys βP3 Tri-Complex tretman",
+    u: { s: "Intenzivni anti-age tretman sa šafranom, soforom i peptidima, za prve znakove starenja.", e: "Intensive anti-age treatment with saffron, sophora and peptides, for first signs of ageing." } },
+  { img: "uploads/Slika%204.png", n: "Matis Réponse Intensive krema za okolinu oka",
+    u: { s: "Za bore i linije oko oka, otekle kapke i podočnjake.", e: "For lines around the eye, puffy eyelids and dark circles." } },
+  { img: "uploads/Slika%205.png", n: "Sothys Le Soin Saisonnier - mango i kokos",
+    u: { s: "Sezonski tretman za oksigenaciju i sjaj kože bez tonusa.", e: "Seasonal treatment that oxygenates and brings back radiance to dull skin." } },
+  { img: "uploads/Slika%206.png", n: "Matis Réponse - Pureté, Vitalité, Corrective",
+    u: { s: "Kućna nega po tipu kože: masna i mešovita, umorna koža, prvi znaci starenja.", e: "Home care by skin type: oily and combination, tired skin, first signs of ageing." } },
+  { img: "uploads/Slika%207.png", n: "Matis Réponse Délicate",
+    u: { s: "Za osetljivu i dehidriranu kožu - hidroregulišuća krema i losion bez alkohola.", e: "For sensitive and dehydrated skin - hydraregulating cream and alcohol-free lotion." } },
+  { img: "uploads/Slika%2010.png", n: "Matis Exclusivité Pro - Whipped Cream",
+    u: { s: "Ishrana i regeneracija kože, tretman za hladne mesece.", e: "Nourishment and skin regeneration, a treatment for the colder months." } }
+];
+
+// m = trajanje (min), p = cena RSD, pop = popularno, old = stara cena, off = popust %
+const CATS = [
+  {
+    id: "manikir", img: "uploads/Manikir%20i%20pedikir%201.jpg",
+    n: { s: "Manikir i pedikir", e: "Manicure & pedicure" },
+    items: [
+      { s: "Estetski manikir", e: "Aesthetic manicure", m: 45, p: 1400,
+        ds: "Kako bi nokti izgledali besprekorno potrebna im je redovna nega. U našem salonu će obučeno osoblje učiniti sve kako bi Vaši prirodni nokti zasijali u punom sjaju - nakon oblikovanja noktiju i poliranja nokatne ploče, pobrinućemo se za kožu oko noktiju i zanoktice.",
+        de: "Flawless nails need regular care. Our trained staff will do everything to make your natural nails shine - after shaping the nail and polishing the nail plate, we take care of the skin around the nail and the cuticles." },
+      { s: "Estetski manikir + gel lak", e: "Aesthetic manicure + gel polish", m: 60, p: 2500,
+        ds: "Kompletan estetski manikir i gel lak u istom terminu. Gel lak drži tri do četiri nedelje bez gubitka sjaja, pa nokti izgledaju sređeno i posle dve nedelje.",
+        de: "A full aesthetic manicure and gel polish in one appointment. The gel holds three to four weeks without losing shine, so nails still look neat after two weeks." },
+      { s: "Deluxe spa manikir", e: "Deluxe spa manicure", m: 70, p: 2200,
+        ds: "Manikir sa dodatnom negom: kupka, piling, maska za ruke i masaža šaka. Termin za suve ruke i za dane kada Vam treba i malo predaha.",
+        de: "A manicure with extra care: a soak, a scrub, a hand mask and a hand massage. For dry hands and for days when you need a break too." },
+      { s: "Lakiranje noktiju - ruke", e: "Nail polish - hands", m: 20, p: 450,
+        ds: "Posetite naš salon, odaberite omiljenu boju iz naše bogate ponude lakova za nokte, a naša iskusna manikir dama će Vaše nokte nalakirati za tili čas! U našem salonu koriste se isključivo lakovi renomiranih brendova, čija specijalna formulacija garantuje perfektne i dugotrajne rezultate.",
+        de: "Visit our salon, pick your favourite colour from our wide range of polishes and our experienced manicurist will paint your nails in no time. We use only polishes from renowned brands, whose special formulation guarantees perfect and long-lasting results." },
+      { s: "Lakiranje noktiju - noge", e: "Nail polish - feet", m: 20, p: 600,
+        ds: "Lakiranje noktiju na nogama je jedan od rituala u kojima mnoge žene uživaju. Međutim, pojedinim damama ovo predstavlja pravu gnjavažu - zato smo mi tu za njih! Odaberite omiljenu boju iz naše bogate ponude lakova za nokte, a naša iskusna pedikir dama će Vaše nokte nalakirati za tili čas!",
+        de: "Painting your toenails is a ritual many women enjoy. For some ladies, though, it is a real chore - and that is exactly why we are here. Pick your favourite colour from our range and our experienced pedicurist will do it in no time." },
+      { s: "Lakiranje noktiju - french", e: "Nail polish - french", m: 30, p: 650,
+        ds: "Francuski manikir je jedan od najpopularnijih stilova za lakiranje noktiju koji već decenijama ne gubi na popularnosti. Za ovu vrstu manikira karakteristična je bela linija koja se iscrtava na vrhovima noktiju i visoki sjaj koji se postiže premazivanjem noktiju providnim lakom u finalnoj fazi tretmana. Neka francuski manikir i Vašim noktima podari prirodan i vrlo ženstven izgled!",
+        de: "The french manicure is one of the most popular nail styles and has kept that place for decades. It is defined by the white line drawn along the tip of the nail and the high shine achieved with a clear top coat in the final step. Let the french manicure give your nails a natural and very feminine look." },
+      { s: "Oblikovanje noktiju", e: "Nail shaping", m: 20, p: 600,
+        ds: "Nokti se mogu oblikovati na više načina, a neki od njih su takozvani bademasti, kockasti i ovalni, dok je među najpopularnijim i najatraktivnijim oblicima svakako i čuveni „stiletto\". Naše iskusne manikirke pomoći će Vam da odaberete najbolji oblik, a zatim Vašim noktima podariti izgled kakav ste oduvek želeli.",
+        de: "Nails can be shaped in several ways - almond, square and oval, while the famous stiletto is among the most popular and most striking shapes. Our experienced manicurists will help you choose the best shape and then give your nails the look you have always wanted." },
+      { s: "Gel lak", e: "Gel polish", m: 60, p: 2700,
+        ds: "Trajni ili gel lakovi se nanose poput klasičnih lakova na nokte, s tim što se nakon nanošenja ne suše na vazduhu već pod led lampom. U zavisnosti od brzine rasta Vaših prirodnih noktiju, korekcija se preporučuje nakon 2-3 nedelje od tretmana. U našem salonu koristimo gel lakove renomiranih brendova Crystal Nails i Galaxy.",
+        de: "Gel polish is applied like classic polish, but instead of drying in the air it cures under a LED lamp. Depending on how fast your natural nails grow, a refill is recommended two to three weeks after the treatment. We work with gel polishes from the renowned brands Crystal Nails and Galaxy." },
+      { s: "Estetski pedikir", e: "Aesthetic pedicure", m: 60, p: 2200,
+        ds: "Ako pridajete veliku važnost izgledu svojih stopala, obavezno zakažite termin za pedikir u našem salonu! Tretman pedikira podrazumeva tretman zdravog stopala, prilikom kog se uklanjaju eventualna zadebljanja kože i tretira se kožica oko noktiju, uz prethodno natapanje stopala u toploj kupki. Vaša stopala i nokti na nogama će nakon ovog tretmana izgledati fantastično!",
+        de: "If the look of your feet matters to you, book a pedicure with us. The treatment covers a healthy foot: thickened skin is removed and the skin around the nails is treated, after the feet have been soaked in a warm bath. Your feet and toenails will look fantastic afterwards." },
+      { s: "Estetski pedikir + gel lak", e: "Aesthetic pedicure + gel polish", m: 80, p: 2900, pop: 1,
+        ds: "Naš najtraženiji termin. Stopala izlaze sređena, a gel lak na nogama ostaje i po mesec dana, jer nokti na nogama rastu znatno sporije od noktiju na rukama.",
+        de: "Our most booked appointment. Feet come out neat and the gel polish stays on for up to a month, because toenails grow much slower than nails on your hands." },
+      { s: "Estetski pedikir + gel lak + french", e: "Aesthetic pedicure + gel polish + french", m: 90, p: 3550,
+        ds: "Kompletan pedikir, gel lak i bela linija na vrhovima noktiju. Kombinacija koju dame najčešće biraju pred letovanje i venčanja.",
+        de: "A full pedicure, gel polish and a white tip. The combination most often chosen before a holiday or a wedding." },
+      { s: "Medicinski pedikir", e: "Medical pedicure", m: 80, p: 3500,
+        ds: "Medicinski pedikir podrazumeva tretman zdravstvenih problema koje nalazimo na stopalima. Tretman obuhvata sređivanje jako zadebljane kože i problema kao što su urasli nokti, gljivice, kurije oko, dijabetičko stopalo, pukotine i slično.",
+        de: "A medical pedicure treats health problems found on the feet. It covers heavily thickened skin and issues such as ingrown nails, fungus, corns, the diabetic foot, cracked heels and similar." },
+      { s: "Deluxe spa pedikir", e: "Deluxe spa pedicure", m: 70, p: 3000,
+        ds: "Pedikir sa toplom kupkom, pilingom, maskom i masažom stopala. Tretman za umorne noge posle celog dana na nogama.",
+        de: "A pedicure with a warm soak, a scrub, a mask and a foot massage. For tired legs after a whole day on your feet." },
+      { s: "Quince spa pedikir", e: "Quince spa pedicure", m: 70, p: 3500,
+        ds: "Naša najkompletnija nega stopala: kupka, piling, maska, parafinska nega i duža masaža stopala i listova.",
+        de: "Our most complete foot care: a soak, a scrub, a mask, paraffin care and a longer massage of the feet and calves." }
+    ]
+  },
+  {
+    id: "nadogradnja", img: "uploads/Nadogradnja%20noktiju%2027.jpg",
+    n: { s: "Nadogradnja / izlivanje / ojačavanje noktiju", e: "Nail extensions / sculpting / strengthening" },
+    items: [
+      { s: "Izlivanje noktiju gelom - S dužina", e: "Gel sculpting - S length", m: 120, p: 3200,
+        ds: "Ako Vaši prirodni nokti pucaju pre nego što narastu, izlivanje gelom daje dužinu koja ostaje. Gel se izliva u kalup, bez tipsi, pa je nokat tanji i prirodniji na izgled.",
+        de: "If your natural nails break before they grow, gel sculpting gives you length that stays. The gel is sculpted in a form, without tips, so the nail is thinner and looks more natural." },
+      { s: "Izlivanje noktiju gelom - M dužina", e: "Gel sculpting - M length", m: 120, p: 3300 },
+      { s: "Izlivanje noktiju gelom - L dužina", e: "Gel sculpting - L length", m: 120, p: 3400 },
+      { s: "Izlivanje noktiju gelom + french - S dužina", e: "Gel sculpting + french - S length", m: 120, p: 3850 },
+      { s: "Izlivanje noktiju gelom + french - M dužina", e: "Gel sculpting + french - M length", m: 120, p: 3950 },
+      { s: "Izlivanje noktiju gelom + french - L dužina", e: "Gel sculpting + french - L length", m: 120, p: 4050 },
+      { s: "Nadogradnja noktiju tipsama", e: "Nail extensions with tips", m: 120, p: 3200,
+        ds: "Metoda za nokte koji se lome, listaju ili su izgrizeni. Tipsa daje osnovu i dužinu, a gel drži oblik. Rezultat je čvrst nokat koji izdrži svakodnevni posao.",
+        de: "The method for nails that break, peel or are bitten. The tip gives the base and the length, the gel holds the shape. The result is a strong nail that survives everyday work." },
+      { s: "Nadogradnja noktiju tipsama + french", e: "Nail extensions with tips + french", m: 120, p: 3850 },
+      { s: "Ojačavanje prirodnih noktiju gelom", e: "Strengthening natural nails with gel", m: 90, p: 3200,
+        ds: "Tanak sloj gela preko prirodnog nokta, bez dodavanja dužine. Nokat prestaje da puca i raste bez lomljenja, a izgled ostaje potpuno prirodan.",
+        de: "A thin layer of gel over the natural nail, without adding length. The nail stops splitting and grows without breaking, while the look stays completely natural." },
+      { s: "Ojačavanje prirodnih noktiju gelom + french", e: "Strengthening natural nails with gel + french", m: 90, p: 2350 },
+      { s: "Korekcija nadogradnje / izlivanja / ojačavanja - S dužina", e: "Refill - S length", m: 120, p: 2500,
+        ds: "Prelaz između gela i prirodnog dela nokta postaje vidljiv posle tri do četiri nedelje. Tada je vreme za korekciju: skida se izrasli deo, popunjava se osnova i nokat dobija nov oblik.",
+        de: "The line between the gel and the natural nail becomes visible after three to four weeks. That is the time for a refill: the grown-out part is filed down, the base is filled in and the nail gets a new shape." },
+      { s: "Korekcija nadogradnje / izlivanja / ojačavanja - M dužine", e: "Refill - M length", m: 120, p: 2600 },
+      { s: "Korekcija nadogradnje / izlivanja / ojačavanja - L dužina", e: "Refill - L length", m: 120, p: 2700, pop: 1,
+        ds: "Termin na koji se naše klijentkinje vraćaju svakog meseca. Nokti ponovo izgledaju kao prvog dana, a prirodna ploča ostaje zaštićena ispod gela.",
+        de: "The appointment our clients come back to every month. Nails look like day one again and the natural plate stays protected under the gel." },
+      { s: "Korekcija nadogradnje / izlivanja / ojačavanja + french - S dužina", e: "Refill + french - S length", m: 120, p: 3150 },
+      { s: "Korekcija nadogradnje / izlivanja / ojačavanja + french - M dužine", e: "Refill + french - M length", m: 120, p: 3250 },
+      { s: "Korekcija nadogradnje / izlivanja / ojačavanja + french - L dužina", e: "Refill + french - L length", m: 120, p: 3350 },
+      { s: "Skidanje gela", e: "Gel removal", m: 40, p: 900,
+        ds: "Gel skidamo bez brušenja prirodnog nokta do tankog sloja. Nokat ostaje ceo, pa može odmah da se lakira ili ojača.",
+        de: "We remove the gel without grinding the natural nail down to a thin layer. The nail stays intact and can be polished or strengthened right away." }
+    ]
+  },
+  {
+    id: "depilacija", img: "",
+    imgLabel: { s: "FOTOGRAFIJA: DEPILACIJA VOSKOM", e: "PHOTO: WAXING" },
+    n: { s: "Depilacija voskom za dame / muškarce", e: "Waxing for women / men" },
+    items: [
+      { s: "Brazilska depilacija toplim voskom - za dame", e: "Brazilian hot wax - women", m: 30, p: 1500, pop: 1,
+        ds: "Topli vosak, uredna intimna regija i koža bez iritacija. Radi kozmetičarka koja ovaj tretman radi svaki dan, pa je i sam postupak kratak i miran.",
+        de: "Hot wax, a neat intimate area and skin without irritation. Done by a beautician who does this treatment every day, so the procedure itself is short and calm." },
+      { s: "Depilacija plitkih / dubokih prepona toplim voskom - za dame", e: "Bikini line, shallow / deep, hot wax - women", m: 20, p: 750,
+        ds: "Topli vosak manje vuče kožu od hladnog, zato ga koristimo za osetljive regije. Dlačice se uklanjaju iz korena, a koža ostaje glatka tri do četiri nedelje.",
+        de: "Hot wax pulls the skin less than cold wax, so we use it on sensitive areas. The hair is removed from the root and the skin stays smooth for three to four weeks." },
+      { s: "Depilacija nausnica toplim voskom - za dame", e: "Upper lip hot wax - women", m: 15, p: 450,
+        ds: "Petnaest minuta i lice je čisto tri do četiri nedelje, bez ožiljaka i uraslih dlačica koje ostaju posle brijanja ili pincete.",
+        de: "Fifteen minutes and the face stays clean for three to four weeks, without the scarring and ingrown hairs left by shaving or tweezing." },
+      { s: "Depilacija celog tela hladnim voskom - za dame", e: "Full body cold wax - women", m: 120, p: 3450,
+        ds: "Ceo posao u jednom terminu, od nogu i ruku do prepona i pazuha. Zaboravite na brijanje i urastanje do sledećeg meseca.",
+        de: "The whole job in one appointment, from legs and arms to the bikini line and underarms. Forget shaving and ingrown hairs until next month." },
+      { s: "Depilacija celih nogu hladnim voskom - za dame", e: "Full legs cold wax - women", m: 40, p: 1450,
+        ds: "Umesto svakodnevnog brijanja, jedan termin na mesec dana. Koža posle voska ostaje glatka duže i dlačica se vraća tanja.",
+        de: "Instead of shaving every day, one appointment a month. After waxing the skin stays smooth longer and the hair grows back finer." },
+      { s: "Depilacija celih nogu + prepone plitke / duboke toplim voskom - za dame", e: "Full legs + bikini line - women", m: 50, p: 1900 },
+      { s: "Depilacija pola nogu hladnim voskom - za dame", e: "Half legs cold wax - women", m: 30, p: 1100 },
+      { s: "Depilacija celih ruku hladnim voskom - za dame", e: "Full arms cold wax - women", m: 25, p: 1100 },
+      { s: "Depilacija pola ruku hladnim voskom - za dame", e: "Half arms cold wax - women", m: 15, p: 900 },
+      { s: "Depilacija pazuha hladnim / toplim voskom - za dame", e: "Underarms cold / hot wax - women", m: 20, p: 500 },
+      { s: "Depilacija stomaka i grudi hladnim voskom - dame", e: "Stomach and chest cold wax - women", m: 30, p: 500 },
+      { s: "Depilacija leđa hladnim voskom - dame", e: "Back cold wax - women", m: 20, p: 500 },
+      { s: "Depilacija ramena hladnim voskom - muškarci", e: "Shoulders cold wax - men", m: 15, p: 600 },
+      { s: "Depilacija leđa hladnim voskom - muškarci", e: "Back cold wax - men", m: 30, p: 1200,
+        ds: "Leđa sami ne možete da uradite. Kod nas je to trideset minuta, u zatvorenoj prostoriji i bez publike.",
+        de: "You cannot do your own back. With us it takes thirty minutes, in a closed room and without an audience." },
+      { s: "Depilacija stomaka i grudi hladnim voskom - muškarci", e: "Stomach and chest cold wax - men", m: 40, p: 1200 }
+    ]
+  },
+  {
+    id: "trepavice", img: "uploads/Trepavice%201.jpg",
+    n: { s: "Trepavice", e: "Eyelashes" },
+    items: [
+      { s: "Nadogradnja svilenih trepavica - 1 na 1", e: "Silk lash extensions - 1 to 1", m: 120, p: 3500,
+        ds: "Na svaku prirodnu trepavicu lepi se jedna svilena. Efekat je prirodan, kao dobro nanesena maskara koju ne morate da skidate uveče.",
+        de: "One silk lash is applied to each natural lash. The effect is natural, like well-applied mascara you never have to remove at night." },
+      { s: "Nadogradnja svilenih trepavica - ruski volumen 3D", e: "Silk lash extensions - Russian volume 3D", m: 120, p: 4000, pop: 1,
+        ds: "Na jednu prirodnu trepavicu ide tri do četiri veštačke, zato je pogled gust i otvoren. Snopići su lakši od jedne debele trepavice, pa prirodna trepavica ne trpi.",
+        de: "Three to four extensions go onto one natural lash, which is why the look is dense and open. The fans are lighter than one thick lash, so the natural lash is not strained." },
+      { s: "Nadogradnja svilenih trepavica - ruski volumen 6D", e: "Silk lash extensions - Russian volume 6D", m: 120, p: 5500,
+        ds: "Najgušći volumen koji radimo, za dame koje žele izražen pogled bez šminke. Snopić od šest vlakana, a svako je tanje od 0,07 mm.",
+        de: "The densest volume we do, for those who want a strong look without makeup. A fan of six fibres, each thinner than 0.07 mm." },
+      { s: "Korekcija nadogradnje svilenih trepavica 1 na 1 - nakon 1 do 2 nedelje", e: "Lash refill 1 to 1 - after 1 to 2 weeks", m: 120, p: 1450 },
+      { s: "Korekcija nadogradnje svilenih trepavica 1 na 1 - nakon 2 - 3 nedelje", e: "Lash refill 1 to 1 - after 2 - 3 weeks", m: 120, p: 2000 },
+      { s: "Korekcija nadogradnje svilenih trepavica 1 na 1 - nakon 3 nedelje", e: "Lash refill 1 to 1 - after 3 weeks", m: 120, p: 2600 },
+      { s: "Korekcija nadogradnje svilenih trepavica ruski volumen 3D - nakon 1 do 2 nedelje", e: "Refill Russian volume 3D - after 1 to 2 weeks", m: 120, p: 2000 },
+      { s: "Korekcija nadogradnje svilenih trepavica ruski volumen 3D - nakon 2 - 3 nedelje", e: "Refill Russian volume 3D - after 2 - 3 weeks", m: 120, p: 2600 },
+      { s: "Korekcija nadogradnje svilenih trepavica ruski volumen 3D - nakon 3 nedelje", e: "Refill Russian volume 3D - after 3 weeks", m: 120, p: 3200, pop: 1,
+        ds: "Redovna korekcija na tri nedelje čuva gustinu i produžava vek nadogradnje. Popunjavaju se mesta odakle je prirodna trepavica ispala u svom ciklusu.",
+        de: "A refill every three weeks keeps the density and extends the life of your extensions. We fill in the spots where a natural lash has shed in its own cycle." },
+      { s: "Korekcija nadogradnje svilenih trepavica ruski volumen 6D - nakon 1 do 2 nedelje", e: "Refill Russian volume 6D - after 1 to 2 weeks", m: 120, p: 3000 },
+      { s: "Korekcija nadogradnje svilenih trepavica ruski volumen 6D - nakon 2 - 3 nedelje", e: "Refill Russian volume 6D - after 2 - 3 weeks", m: 120, p: 3600 }
+    ]
+  },
+  {
+    id: "lica", img: "uploads/Tretmani%20lica.jpg",
+    n: { s: "Tretmani lica", e: "Facial treatments" },
+    items: [
+      { s: "Higijenski tretman lica", e: "Deep cleansing facial", m: 120, p: 3500, pop: 1,
+        ds: "Temeljno čišćenje kože: pare, vađenje nečistoća, piling, maska i završna krema. Osnova svake dalje nege - bez čiste kože nijedan aktivni preparat ne radi kako treba.",
+        de: "A thorough cleanse: steam, extraction, exfoliation, a mask and a finishing cream. The base of any further care - no active product works properly on unclean skin." },
+      { s: "Blic tretman lica", e: "Express facial", m: 30, p: 2000,
+        ds: "Čišćenje, piling, masaža, maska i krema u trideset minuta. Kratak predah pred izlazak ili pred važan sastanak.",
+        de: "Cleansing, exfoliation, massage, a mask and a cream in thirty minutes. A short break before a night out or an important meeting." },
+      { s: "Tretman hidratacije lica Sothys", e: "Sothys hydration facial", m: 75, p: 4500, old: 5000, off: 10,
+        ds: "Intenzivna hidratacija dubljih slojeva kože hijaluronskim koncentratima. Radi i kao prevencija starenja, jer dehidrirana koža prva pokaže linije.",
+        de: "Intensive hydration of the deeper skin layers with hyaluronic concentrates. It also works as ageing prevention, because dehydrated skin shows lines first." },
+      { s: "Sothys 3d hidratacija", e: "Sothys 3d hydration", m: 75, p: 5500 },
+      { s: "Sothys tretman lica sa peptidima", e: "Sothys peptide facial", m: 75, p: 5500,
+        ds: "Anti-age tretman za sve tipove kože, namenjen prvim znacima starenja. Peptidi podstiču kožu da sama obnavlja kolagen.",
+        de: "An anti-age treatment for all skin types, aimed at the first signs of ageing. Peptides encourage the skin to renew its own collagen." },
+      { s: "Detox energie Sothys tretman lica", e: "Sothys Detox Energie facial", m: 75, p: 5500,
+        ds: "Za kožu koja svaki dan trpi gradsko zagađenje, klima uređaje i ekrane, pa je siva i bez energije.",
+        de: "For skin that takes on city pollution, air conditioning and screens every day, and has gone grey and low on energy." },
+      { s: "Detox energie Sothys + higijenski tretman lica", e: "Sothys Detox Energie + deep cleansing facial", m: 120, p: 6500,
+        ds: "Kombinacija koja prvo očisti kožu, a onda je nahrani. Naš najkompletniji termin za lice i najbolji izbor za prvi dolazak.",
+        de: "A combination that first cleans the skin, then feeds it. Our most complete facial appointment and the best choice for a first visit." },
+      { s: "Sezonski tretman lica Sothys", e: "Sothys seasonal facial", m: 60, p: 4500,
+        ds: "Mango i kokos, oksigenacija kože bez sjaja. Idealan za jesen i zimu, kada koža izgleda umorno i zatvoreno.",
+        de: "Mango and coconut, oxygenation for dull skin. Ideal for autumn and winter, when skin looks tired and closed off." },
+      { s: "Biološki piling lica Sothys", e: "Sothys biological peel", m: 60, p: 3500 },
+      { s: "Biološki tretman lica", e: "Biological facial", m: 40, p: 3500 },
+      { s: "Inicijalni tretman lica Matis", e: "Matis initial facial", m: 50, p: 3500,
+        ds: "Vraća koži blistavost i elastičnost i daje instant efekat popunjenosti. Dobar prvi korak ako ne znate šta Vašoj koži treba.",
+        de: "Brings back radiance and elasticity with an instant plumping effect. A good first step if you are not sure what your skin needs." },
+      { s: "Whipped cream Matis tretman lica", e: "Matis Whipped Cream facial", m: 75, p: 4000,
+        ds: "Za kožu koja je dobila umoran i siv izgled. Ishrana i regeneracija, tretman koji najviše radimo u hladnim mesecima.",
+        de: "For skin that has gone tired and grey. Nourishment and regeneration - the treatment we do most in the cold months." },
+      { s: "Matis Whipped Cream tretman", e: "Matis Whipped Cream treatment", m: 60, p: 4000 },
+      { s: "Hemijski piling lica", e: "Chemical peel", m: 45, p: 5500 },
+      { s: "Hemijski piling Restructa", e: "Restructa chemical peel", m: 60, p: 5500 },
+      { s: "Fito piling tretman lica (Green peel)", e: "Phyto peel facial (Green peel)", m: 45, p: 3500,
+        ds: "Piling biljnim ekstraktima koji obnavlja kožu bez agresivnih kiselina. Pogodan i za osetljivu kožu koja ne podnosi hemijske pilinge.",
+        de: "A peel with plant extracts that renews the skin without aggressive acids. Suitable for sensitive skin that cannot take chemical peels." },
+      { s: "Dijamantska mikrodermoabrazija", e: "Diamond microdermabrasion", m: 60, p: 3500,
+        ds: "Dijamantske glave nežno uklanjaju izumrle ćelije, koža ostaje glatka i svetlija, a pore vidljivo sitnije.",
+        de: "Diamond tips gently remove dead cells, leaving the skin smooth and brighter, with visibly finer pores." },
+      { s: "Mezoterapija dermapenom", e: "Dermapen mesotherapy", m: 120, p: 5500 },
+      { s: "Mezoterapija kose", e: "Hair mesotherapy", m: 60, p: 5500 },
+      { s: "Mesoglow tretman lica", e: "Mesoglow facial", m: 60, p: 7000 },
+      { s: "Hollywood glow tretman", e: "Hollywood glow treatment", m: 60, p: 8000 },
+      { s: "Tretman melazme Me Line", e: "Me Line melasma treatment", m: 60, p: 7000 },
+      { s: "Tretman lica za akne", e: "Acne facial", m: 40, p: 3500 },
+      { s: "Teenage paket protiv akni", e: "Teenage anti-acne package", m: 60, p: 15500 },
+      { s: "Ultrazvučni tretman lica", e: "Ultrasound facial", m: 60, p: 3000,
+        ds: "Ultrazvukom ubacujemo koncentrate u dublje slojeve kože, tako da se koža prehrani i obnovi iznutra, a ne samo na površini.",
+        de: "Ultrasound drives concentrates into the deeper layers, so the skin is fed and renewed from within, not only on the surface." },
+      { s: "Ultrazvučni tretman lica - dodatak uz drugi tretman", e: "Ultrasound facial - add-on", m: 15, p: 1500,
+        ds: "Ovaj termin se ne zakazuje sam, već samo uz već zakazani tretman lica.",
+        de: "This one is not booked on its own, only alongside an already booked facial." },
+      { s: "Ultrazvučna špatula", e: "Ultrasonic spatula", m: 30, p: 1500,
+        ds: "Čišćenje lica, piling špatulom, maska i završna krema. Bez pritiska i bez crvenila posle tretmana.",
+        de: "Face cleansing, spatula exfoliation, a mask and a finishing cream. No pressure and no redness afterwards." },
+      { s: "Ultrazvučna špatula - dodatak uz drugi tretman", e: "Ultrasonic spatula - add-on", m: 15, p: 950 },
+      { s: "Ultrazvučna špatula + ultrazvučni tretman lica", e: "Ultrasonic spatula + ultrasound facial", m: 55, p: 3000 }
+    ]
+  },
+  {
+    id: "tela", img: "uploads/beauty-of-quince_5_md.jpg",
+    n: { s: "Tretmani tela", e: "Body treatments" },
+    items: [
+      { s: "Vacuslim 48", e: "Vacuslim 48", m: 40, p: 3500,
+        ds: "Aparat radi na obim i celulit u predelu stomaka, butina i gluteusa. Rezultat se prati merenjem, a ne na oko.",
+        de: "The device works on circumference and cellulite around the stomach, thighs and glutes. Progress is tracked by measuring, not by guessing." },
+      { s: "Vacuslim 48 tretman", e: "Vacuslim 48 treatment", m: 45, p: 3000 },
+      { s: "Vacuslim 48 - paket od 10 tretmana", e: "Vacuslim 48 - package of 10", m: 60, p: 30000 },
+      { s: "Vacuslim 48 tretman - paket od 10 tretmana", e: "Vacuslim 48 treatment - package of 10", m: 45, p: 25000,
+        ds: "Deset tretmana u paketu izlazi jeftinije od pojedinačnih termina, a upravo se na seriji tretmana i vidi razlika.",
+        de: "Ten treatments in a package come out cheaper than single appointments, and it is exactly over a series that the difference shows." },
+      { s: "Vacuslim 48 - paket od 10 tretmana + anticelulit masaža", e: "Vacuslim 48 - package of 10 + anti-cellulite massage", m: 60, p: 35000 },
+      { s: "Vacuslim 48 tretman + anticelulit masaža - paket od 10 tretmana", e: "Vacuslim 48 + anti-cellulite massage - package of 10", m: 45, p: 30000 },
+      { s: "Vacuumfit 100 - tretman tela", e: "Vacuumfit 100 - body treatment", m: 60, p: 2000 },
+      { s: "Vakuum Body 65 tretman", e: "Vacuum Body 65 treatment", m: 60, p: 2000 },
+      { s: "Vakuum Body 65 - 6 tretmana", e: "Vacuum Body 65 - 6 treatments", m: 60, p: 10000 }
+    ]
+  },
+  {
+    id: "masaze", img: "uploads/masaze.jpg",
+    n: { s: "Masaže", e: "Massages" },
+    items: [
+      { s: "Maderoterapija", e: "Maderotherapy", m: 45, p: 3500,
+        ds: "Drvenim alatima radimo noge, gluteus i ruke. Već posle prvog termina koža je zategnutija, a limfa pokrenuta.",
+        de: "We work legs, glutes and arms with wooden tools. After the first session the skin is firmer and the lymph is moving." },
+      { s: "Maderoterapija - paket od 6 masaža", e: "Maderotherapy - package of 6", m: 30, p: 17500 },
+      { s: "Maderoterapija - paket od 8 masaža", e: "Maderotherapy - package of 8", m: 30, p: 24500 },
+      { s: "Maderoterapija - paket od 10 masaža", e: "Maderotherapy - package of 10", m: 30, p: 31500 },
+      { s: "Maderoterapija - paket od 10 tretmana", e: "Maderotherapy - package of 10 treatments", m: 45, p: 23000 },
+      { s: "Vakuum 48 + maderoterapija 10 tretmana", e: "Vacuum 48 + maderotherapy, 10 treatments", m: 90, p: 35000 },
+      { s: "Masaža lica", e: "Face massage", m: 60, p: 2000,
+        ds: "Masaža lica, dekoltea i gornjeg dela leđa, uz piling i masku. Otiče se lice, a vrat i ramena se rasterete.",
+        de: "Massage of the face, décolletage and upper back, with a scrub and a mask. Puffiness goes down and the neck and shoulders relax." }
+    ]
+  },
+  {
+    id: "obrve", img: "uploads/Trepavice%202.jpg",
+    n: { s: "Obrve", e: "Eyebrows" },
+    items: [
+      { s: "Oblikovanje / korekcija obrva - voskom, pincetom", e: "Brow shaping / correction - wax, tweezers", m: 15, p: 550,
+        ds: "Obrve uokviruju oči i vizuelno ih otvaraju. Ako ne znate koji oblik Vam stoji, predložićemo ga na licu mesta, u odnosu na oblik lica i pravac rasta dlačica.",
+        de: "Brows frame the eyes and visually open them up. If you are not sure which shape suits you, we will suggest one on the spot, based on your face shape and how the hair grows." },
+      { s: "Farbanje obrva", e: "Brow tinting", m: 30, p: 450,
+        ds: "Boja drži tri do četiri nedelje, pa ne morate da iscrtavate obrve svako jutro. Nijansu biramo uz Vašu boju kose, a ne tamniju za dve nijanse.",
+        de: "The tint holds three to four weeks, so you do not have to draw your brows every morning. We match the shade to your hair colour, not two shades darker." }
+    ]
+  },
+  {
+    id: "airbrush", img: "uploads/Airbrush%20potamnjivanje.jpg",
+    n: { s: "Airbrush potamnjivanje", e: "Airbrush tanning" },
+    items: [
+      { s: "Airbrush potamnjivanje - celo telo", e: "Airbrush tanning - full body", m: 30, p: 2500, pop: 1,
+        ds: "Preparat se nanosi pištoljem, bez sunca i solarijuma. Boja se vidi odmah i drži do deset dana, a ton birate zajedno sa kozmetičarkom.",
+        de: "The product is applied with a spray gun, no sun and no solarium. The colour shows right away and holds up to ten days, and you pick the tone together with the beautician." },
+      { s: "Air brush potamnjivanje - pola tela", e: "Airbrush tanning - half body", m: 30, p: 2000 }
+    ]
+  }
+];
+
+const GALLERY = {
+  manikir: [
+    "uploads/Manikir%20i%20pedikir%201.jpg", "uploads/Manikir%20i%20pedikir%202.jpg", "uploads/Manikir%20i%20pedikir%203.jpg",
+    "uploads/Manikir%20i%20pedikir%204.jpg", "uploads/Manikir%20i%20pedikir%205.jpg",
+    "uploads/beauty-of-quince_1_md.jpg", "uploads/beauty-of-quince_0_md.jpg"
+  ],
+  nadogradnja: ["uploads/Nadogradnja%20noktiju%2027.jpg", "uploads/Nadogradnja%20noktiju%2024.jpg"].concat(
+    Array.from({ length: 26 }, (_, i) => `uploads/Nadogradnja%20noktiju%20${i + 1}.jpg`).filter(p => p !== "uploads/Nadogradnja%20noktiju%2024.jpg")
+  ),
+  depilacija: [],
+  trepavice: [
+    "uploads/Trepavice%201.jpg", "uploads/Trepavice%203.jpg", "uploads/Trepavice%204.jpg",
+    "uploads/Trepavice%205.jpg", "uploads/Trepavice%207.jpg", "uploads/Trepavice%209.jpg", "uploads/Trepavice%2010.jpg"
+  ],
+  lica: ["uploads/Tretmani%20lica.jpg", "uploads/Tretmani%20lica%201.jpg", "uploads/beauty-of-quince_2_md.jpg"],
+  tela: ["uploads/beauty-of-quince_5_md.jpg"],
+  masaze: ["uploads/masaze.jpg", "uploads/beauty-of-quince_5_md.jpg", "uploads/beauty-of-quince_6_md.jpg"],
+  obrve: ["uploads/Trepavice%202.jpg", "uploads/Trepavice%206.jpg", "uploads/Trepavice%208.jpg"],
+  airbrush: ["uploads/Airbrush%20potamnjivanje.jpg", "uploads/Airbrush%20potamnjivanje%201.jpg"]
+};
+
+const T = {
+  s: {
+    langName: "Srpski",
+    nav: { services: "Usluge", about: "O nama", gallery: "Galerija", contact: "Kontakt", home: "Početna" },
+    cta: "Zakaži termin",
+    ctaLong: "Zakažite vaš termin",
+    heroEyebrow: "Zvezdara, Beograd · kozmetički salon od 2017. godine",
+    heroTitle: "Kako da izađete iz salona zadovoljni, a ne da razmišljate šta je moglo bolje",
+    heroSub: "Nokti, trepavice, lice i telo na jednom mestu, uz profesionalne preparate Sothys i Matis Paris i termine koji počinju kada su zakazani. Bulevar kralja Aleksandra 149, dva koraka od Vukovog spomenika.",
+    heroBadges: ["Salon od 2017. godine", "Ocena 9,8", "Plaćanje gotovinom u salonu"],
+    problemTitle: "Znate onaj osećaj kada gledate svoje ruke i sakrivate ih",
+    problemBody: [
+      "Zakazali ste kod nekog novog jer je bilo blizu. Nokti su gotovi za četrdeset minuta, a već posle nedelju dana gel se odvaja na dva prsta.",
+      "Trepavice se lepe po dve, a za korekciju Vas pozovu tek kada budu imali mesta. Depilaciju odlažete jer ste zadnji put dva dana imali crvenu kožu.",
+      "I onda sve to prestanete da zakazujete. Rastete nokte pa ih grizete, kupujete kreme koje Vam ne odgovaraju, i svaki izlazak počinjete tako što nešto na sebi pokrivate."
+    ],
+    solutionTitle: "Kod nas jedan termin rešava tu stvar do kraja",
+    solutionBody: "Beauty of Quince je mali salon na Zvezdari. Radi se sporije, sa preparatima Sothys i Matis Paris, i sa kozmetičarkom koja zna kako Vaš nokat raste i koja krema odgovara Vašoj koži. Zato korekcije zakazujete na tri nedelje, a ne kada nešto pukne.",
+    solutionPoints: ["Jedna osoba vodi Vaš tretman od početka do kraja", "Sterilan instrument za svaku klijentkinju", "Savet za kućnu negu koji dobijate bez naplate"],
+    credTitle: "Zašto da verujete nama",
+    credSub: "Četiri stvari koje možete da proverite pre nego što zakažete.",
+    creds: [
+      { k: "2017.", t: "Ista adresa od 2017. godine", d: "Salon radi u Bulevaru kralja Aleksandra 149 na Zvezdari, dva koraka od Vukovog spomenika. Isti prostor, ista kozmetičarka i klijenti koji dolaze godinama.", hl: "Zvezdara, Bulevar kralja Aleksandra 149",
+        p: "M4 7h16v13H4zM8 3v4M16 3v4M4 12h16" },
+      { k: "9,8", t: "Ocena koju možete da pročitate", d: "Prosečna ocena salona je 9,8, a najviše je nosi higijena. Utisci su javni i možete da ih pročitate pre nego što zakažete prvi termin.", hl: "Utisci su javni",
+        p: "M12 3.5l2.7 5.6 6.1.9-4.4 4.3 1 6.2-5.4-2.9-5.4 2.9 1-6.2L3.2 10l6.1-.9z" },
+      { k: "2", t: "Sothys i Matis Paris", d: "Radimo profesionalnim linijama koje možete da kupite i za kućnu negu, pa se efekat tretmana ne izgubi za nedelju dana.", hl: "profesionalnim linijama",
+        p: "M10 3h4v3l3 6v9H7v-9l3-6zM7 15h10" },
+      { k: "1", t: "Jelena radi Vaš tretman", d: "Vlasnica salona je i kozmetičarka. Ona radi nokte, trepavice, lice i telo, tako da znate ko Vas čeka.", hl: "znate ko Vas čeka",
+        p: "M12 12a4 4 0 100-8 4 4 0 000 8zM4.5 21c0-4 3.4-6 7.5-6s7.5 2 7.5 6" }
+    ],
+    benefitsTitle: "Šta konkretno dobijate",
+    benefits: [
+      "Nokte koje ne krijete na sastanku i na slikama.",
+      "Jutro u kom ne stavljate maskaru, jer Vam ne treba.",
+      "Kožu bez uraslih dlačica i bez dva dana crvenila posle depilacije.",
+      "Tretman lica posle kog Vam kolege kažu da izgledate odmorno, a ne našminkano.",
+      "Termin koji počinje kada je zakazan, jer ne primamo tri osobe u isto vreme.",
+      "Kućnu negu izabranu za Vašu kožu, pa prestajete da kupujete kreme naslepo.",
+      "Sat ili dva u kojima niko ništa ne traži od Vas."
+    ],
+    popularTitle: "Najtraženiji tretmani",
+    popularSub: "Usluge koje se kod nas najviše zakazuju.",
+    popularPill: "popularno",
+    popularCta: "Pogledajte u cenovniku",
+    priceTitle: "Cenovnik",
+    priceSub: "Sve usluge, trajanje i cene na jednom mestu. Izaberite uslugu, otvoriće se termin za nju.",
+    priceHint: "Kliknite na uslugu da izaberete termin",
+    more: "Prikaži više",
+    less: "Prikaži manje",
+    book: "Rezervišite termin za ovu uslugu",
+    discount: "Popust",
+    pagePrev: "Prethodna stranica",
+    pageNext: "Sledeća stranica",
+    reviewsTitle: "Šta kažu klijenti",
+    reviewsSub: "Ocene i utisci sa profila salona.",
+    ratingOf: "prosečna ocena salona",
+    productsTitle: "Preparati sa kojima radimo",
+    productsSub: "Iste linije koje koristimo u tretmanu možete da kupite i za kućnu negu.",
+    productsAll: "Sledeći preparati",
+    offerTitle: "Šta dobijate za svoju cenu",
+    offerLead: "Cena tretmana nije samo vreme provedeno u stolici. Ovo su četiri stvari koje su uvek uračunate.",
+    offerItems: [
+      { t: "Jedan termin, jedna osoba", d: "Ne prebacujemo Vas od stola do stola. Ono što ste zakazali radi ista kozmetičarka, od početka do kraja." },
+      { t: "Cena koju vidite je cena koju plaćate", d: "Bez dodataka koji se pojave na kraju tretmana. Sve stoji u cenovniku, i trajanje i cena." },
+      { t: "Preparati koje biramo, a ne koji su na akciji", d: "Sothys i Matis Paris, profesionalne linije - iste one koje Vam predlažemo i za kućnu negu." },
+      { t: "Vreme koje je samo Vaše", d: "Ne primamo tri osobe u isto vreme, pa termin počinje kada je zakazan i traje koliko treba." }
+    ],
+    offerWhy: "Radimo bez recepcije, bez marketinga i bez ekipe koja se menja svakih šest meseci. Zato profesionalni preparati kod nas ne koštaju kao u velikim salonima u centru.",
+    payNote: "Plaćanje gotovinom u salonu.",
+    ctaTitle: "Kako se zakazuje",
+    ctaSteps: [
+      "Otvorite cenovnik i kliknite na uslugu koju želite.",
+      "Izaberite dan, vreme i kozmetičarku iz slobodnih termina.",
+      "Ostavite ime, telefon i mejl. Potvrda Vam stiže na mejl."
+    ],
+    ctaNote: "Ako Vam nešto nije jasno, pozovite 061 2540589. Radnim danima od 10 do 20, subotom do 16.",
+    faqTitle: "Često postavljana pitanja",
+    faqSub: "Ono što nas klijenti najčešće pitaju pre prvog dolaska.",
+    faq: [
+      { q: "Kako mogu da zakažem termin?", a: "Najlakše preko sajta: kliknite na uslugu u cenovniku, izaberite dan i vreme i ostavite kontakt. Potvrda stiže na mejl. Možete i da nas pozovete na 061 2540589 radnim danima od 10 do 20, a subotom do 16." },
+      { q: "Da li mogu da otkažem ili premestim termin?", a: "Možete, samo nas obavestite najmanje 24 sata pre termina, pozivom ili porukom. Tako Vaše mesto može da dobije neko sa liste čekanja, a Vama nalazimo prvi sledeći slobodan termin." },
+      { q: "Koliko dugo traje gel lak i kada je vreme za korekciju?", a: "Gel lak drži tri do četiri nedelje. Korekciju preporučujemo posle dve do tri nedelje, kada se vidi prelaz između gela i izraslog dela nokta - tada je nokat još uvek zaštićen i korekcija je kraća." },
+      { q: "Koliko traje nadogradnja trepavica i kako se održava?", a: "Prirodna trepavica ima svoj ciklus, pa se nadogradnja proređuje kroz dve do tri nedelje. Uz korekciju na tri nedelje volumen ostaje isti. Ne trljajte oči, izbegavajte uljane demakijaže i spavajte na leđima ili na strani ako možete." },
+      { q: "Da li je depilacija toplim voskom bolna?", a: "Topli vosak manje vuče kožu od hladnog, zato ga koristimo za osetljive regije. Neprijatnost postoji, ali kratko traje i posle nekoliko tretmana je znatno manja, jer dlačica postaje tanja. Kod nas se svaka špatula koristi jednom." },
+      { q: "Kako da se pripremim za tretman lica?", a: "Dođite bez šminke ako možete, ili ćemo je mi skinuti na početku. Tri dana pre tretmana nemojte da radite piling ni depilaciju lica, a ako koristite retinol ili kiseline, recite nam - prilagodićemo tretman." },
+      { q: "Koji je način plaćanja?", a: "Plaćanje je gotovinom u salonu, na kraju tretmana. Cena je ona koju vidite u cenovniku." },
+      { q: "Da li radite i sa muškim klijentima?", a: "Radimo. Muška depilacija leđa, ramena, stomaka i grudi je u cenovniku, kao i tretmani lica i medicinski pedikir." }
+    ],
+    contactTitle: "Kontakt",
+    contactSub: "Pitajte šta Vas zanima - odgovaramo isti dan, radnim danima do 20 časova.",
+    contactFormTitle: "Pošaljite pitanje",
+    contactPhoneLabel: "Telefon i poruke",
+    contactMailLabel: "Mejl",
+    contactAddrLabel: "Adresa",
+    contactWhat: "Šta možete da nas pitate",
+    contactWhatItems: [
+      "Koji tretman odgovara Vašoj koži ili noktima",
+      "Da li ima slobodnog termina van objavljenih sati",
+      "Cenu paketa ili kombinacije više usluga",
+      "Poklon vaučer za tretman"
+    ],
+    locationTitle: "Gde smo",
+    locationNote: "Zvonite na interfon 4, drugi sprat. Parking ispred zgrade i u Ustaničkoj.",
+    hoursTitle: "Radno vreme",
+    formName: "Ime i prezime",
+    formEmail: "Mejl",
+    formPhone: "Telefon",
+    formNote: "Napomena",
+    formNoteOpt: "Napomena (nije obavezno)",
+    formSend: "Pošaljite pitanje",
+    formSent: "Poslato. Odgovorićemo Vam na mejl.",
+    required: "obavezno",
+    aboutTitle: "O nama",
+    aboutLead: "Beauty of Quince radi od 2017. godine, na istoj adresi na Zvezdari.",
+    aboutBody: [
+      "Salon je osnovan sa željom da damama ponudi raznovrsne i kvalitetne kozmetičke tretmane koji će učiniti da se osećaju lepo u sopstvenoj koži.",
+      "U prijatnom ambijentu našeg salona na Zvezdari dočekaće Vas stručno i ljubazno osoblje, koje podjednaku pažnju posvećuje Vašoj spoljašnjoj i unutrašnjoj lepoti.",
+      "Kako bismo osigurali potpuno zadovoljstvo naših klijenata, opredelili smo se za rad sa najkvalitetnijim preparatima vodećih kozmetičkih kuća koji postižu maksimalne rezultate."
+    ],
+    aboutEyebrow: "Salon",
+    jelenaTitle: "Jelena Đorđević-Nedić",
+    jelenaRole: "Preduzetnica i vlasnica salona",
+    jelenaBody: [
+      "Jelena je osnovala Beauty of Quince 2017. godine, sa idejom da otvori salon u koji se dolazi zbog rezultata, a ne zbog akcije. Danas radi sa klijentima od kojih mnogi dolaze duže od pet godina.",
+      "Kao kozmetičarka radi nokte, trepavice, depilaciju, tretmane lica i tela, masaže i airbrush potamnjivanje. Preparate bira po tipu kože i predlaže kućnu negu koja ima smisla za Vas, a ne najskuplju policu u salonu.",
+      "Ako dolazite prvi put, reći će Vam i kada nešto ne treba da radite, i objasniti zašto. To je razlog zbog kog se klijenti vraćaju."
+    ],
+    galleryTitle: "Galerija",
+    galleryBack: "Sve usluge",
+    galleryEmpty: "Fotografije za ovu uslugu uskoro.",
+    galleryCount: "fotografija",
+    footerTagline: "Kozmetički salon na Zvezdari od 2017. godine.",
+    footerRights: "Sva prava zadržana.",
+    booking: {
+      title: "Zakazivanje termina",
+      step: "Korak",
+      of: "od",
+      s1: "Termin",
+      s2: "Vaši podaci",
+      chosen: "Izabrana usluga",
+      pickDate: "Izaberite dan",
+      pickTime: "Izaberite vreme",
+      pickStaff: "Kod koga želite tretman",
+      taken: "zauzeto",
+      full: "popunjeno",
+      closed: "zatvoreno",
+      passed: "prošlo",
+      next: "Nastavite na podatke",
+      back: "Nazad",
+      submit: "Zakažite vaš termin",
+      needDate: "Izaberite dan i vreme.",
+      okTitle: "Termin je zakazan",
+      okBody: "Detalji rezervacije stižu Vam na mejl u nekoliko minuta. Ako nešto treba da promenite, pozovite 061 2540589.",
+      okClose: "Zatvori",
+      thisWeek: "Ova nedelja",
+      firstName: "Ime",
+      lastName: "Prezime",
+      pay: "Plaćanje gotovinom u salonu, na kraju tretmana."
+    },
+    days: ["Ned", "Pon", "Uto", "Sre", "Čet", "Pet", "Sub"],
+    months: ["januar", "februar", "mart", "april", "maj", "jun", "jul", "avgust", "septembar", "oktobar", "novembar", "decembar"],
+    min: "min",
+    rsd: "RSD"
+  },
+  e: {
+    langName: "English",
+    nav: { services: "Services", about: "About", gallery: "Gallery", contact: "Contact", home: "Home" },
+    cta: "Book now",
+    ctaLong: "Book your appointment",
+    heroEyebrow: "Zvezdara, Belgrade · a beauty salon since 2017",
+    heroTitle: "How to leave a salon happy instead of thinking what could have been better",
+    heroSub: "Nails, lashes, face and body in one place, with professional Sothys and Matis Paris products and appointments that start when they are booked. Bulevar kralja Aleksandra 149, two steps from Vukov spomenik.",
+    heroBadges: ["A salon since 2017", "Rated 9.8", "Cash payment at the salon"],
+    problemTitle: "You know the feeling when you look at your hands and hide them",
+    problemBody: [
+      "You booked somewhere new because it was close. The nails were done in forty minutes, and a week later the gel lifted on two fingers.",
+      "Your lashes stick together in pairs, and they call you for a refill only when they have room. You keep postponing waxing because last time your skin was red for two days.",
+      "And then you stop booking at all. You grow your nails and bite them, you buy creams that do not suit you, and every night out starts with covering something up."
+    ],
+    solutionTitle: "Here one appointment settles it properly",
+    solutionBody: "Beauty of Quince is a small salon in Zvezdara. We work slower, with Sothys and Matis Paris products, and with a beautician who knows how your nail grows and which cream suits your skin. That is why you book a refill after three weeks, not when something breaks.",
+    solutionPoints: ["One person runs your treatment from start to finish", "A sterile instrument set for every client", "Home-care advice at no extra charge"],
+    credTitle: "Why trust us",
+    credSub: "Four things you can check before you book.",
+    creds: [
+      { k: "2017", t: "The same address since 2017", d: "The salon sits at Bulevar kralja Aleksandra 149 in Zvezdara, two steps from Vukov spomenik. The same space, the same beautician and clients who have been coming for years.", hl: "Zvezdara, Bulevar kralja Aleksandra 149",
+        p: "M4 7h16v13H4zM8 3v4M16 3v4M4 12h16" },
+      { k: "9.8", t: "A rating you can read", d: "The average salon rating is 9.8, and hygiene carries the highest score of all. The reviews are public, so you can read them before you book a first appointment.", hl: "The reviews are public",
+        p: "M12 3.5l2.7 5.6 6.1.9-4.4 4.3 1 6.2-5.4-2.9-5.4 2.9 1-6.2L3.2 10l6.1-.9z" },
+      { k: "2", t: "Sothys and Matis Paris", d: "We work with professional lines you can also buy for home care, so the effect of a treatment does not disappear in a week.", hl: "professional lines",
+        p: "M10 3h4v3l3 6v9H7v-9l3-6zM7 15h10" },
+      { k: "1", t: "Jelena does your treatment", d: "The owner is the beautician. She does nails, lashes, face and body, so you know who is waiting for you.", hl: "you know who is waiting",
+        p: "M12 12a4 4 0 100-8 4 4 0 000 8zM4.5 21c0-4 3.4-6 7.5-6s7.5 2 7.5 6" }
+    ],
+    benefitsTitle: "What you actually get",
+    benefits: [
+      "Nails you do not hide in a meeting or in photos.",
+      "A morning without mascara, because you do not need it.",
+      "Skin without ingrown hairs and without two days of redness after waxing.",
+      "A facial after which colleagues say you look rested, not made up.",
+      "An appointment that starts on time, because we do not take three people at once.",
+      "Home care chosen for your skin, so you stop buying creams blindly.",
+      "An hour or two when nobody asks anything of you."
+    ],
+    popularTitle: "Most booked treatments",
+    popularSub: "The services our clients book the most.",
+    popularPill: "popular",
+    popularCta: "See it in the price list",
+    priceTitle: "Price list",
+    priceSub: "Every service, its length and its price in one place. Pick a service and its booking opens.",
+    priceHint: "Click a service to pick a time",
+    more: "Read more",
+    less: "Show less",
+    book: "Book this service",
+    discount: "Discount",
+    pagePrev: "Previous page",
+    pageNext: "Next page",
+    reviewsTitle: "What clients say",
+    reviewsSub: "Scores and reviews from the salon profile.",
+    ratingOf: "average salon rating",
+    productsTitle: "Products we work with",
+    productsSub: "The same lines we use in treatments are available for home care.",
+    productsAll: "Next products",
+    offerTitle: "What you get for your money",
+    offerLead: "The price of a treatment is not only the time in the chair. These four things are always included.",
+    offerItems: [
+      { t: "One appointment, one person", d: "We do not move you from table to table. What you booked is done by the same beautician, start to finish." },
+      { t: "The price you see is the price you pay", d: "Nothing gets added at the end of the treatment. The list holds both the length and the price." },
+      { t: "Products we choose, not products on sale", d: "Sothys and Matis Paris professional lines - the same ones we suggest for your home care." },
+      { t: "Time that is only yours", d: "We do not take three people at once, so your appointment starts on time and lasts as long as it needs." }
+    ],
+    offerWhy: "We work without a reception desk, without marketing and without a team that changes every six months. That is why professional products cost less here than in the big salons downtown.",
+    payNote: "Cash payment at the salon.",
+    ctaTitle: "How booking works",
+    ctaSteps: [
+      "Open the price list and click the service you want.",
+      "Pick a day, a time and your beautician from the free slots.",
+      "Leave your name, phone and email. The confirmation arrives by email."
+    ],
+    ctaNote: "If anything is unclear, call 061 2540589. Weekdays 10 to 20, Saturday until 16.",
+    faqTitle: "Frequently asked questions",
+    faqSub: "What clients ask us most before a first visit.",
+    faq: [
+      { q: "How do I book an appointment?", a: "The easiest way is on this site: click a service in the price list, pick a day and a time and leave your contact details. The confirmation arrives by email. You can also call 061 2540589, weekdays 10 to 20 and Saturday until 16." },
+      { q: "Can I cancel or move my appointment?", a: "You can - just let us know at least 24 hours before, by call or message. That way someone on the waiting list can take the slot, and we find you the next free one." },
+      { q: "How long does gel polish last and when is a refill due?", a: "Gel polish holds three to four weeks. We recommend a refill after two to three weeks, when the line between the gel and the grown-out nail shows - the nail is still protected then and the refill is shorter." },
+      { q: "How long do lash extensions last and how do I care for them?", a: "A natural lash has its own cycle, so extensions thin out over two to three weeks. With a refill every three weeks the volume stays the same. Do not rub your eyes, avoid oil-based cleansers and sleep on your back or side if you can." },
+      { q: "Is hot wax painful?", a: "Hot wax pulls the skin less than cold wax, which is why we use it on sensitive areas. There is discomfort, but it is brief and drops noticeably after a few treatments as the hair grows finer. Every spatula here is used once." },
+      { q: "How should I prepare for a facial?", a: "Come without makeup if you can, or we will remove it at the start. Do not exfoliate or wax your face for three days before, and if you use retinol or acids, tell us - we will adjust the treatment." },
+      { q: "How can I pay?", a: "Payment is in cash at the salon, at the end of the treatment. The price is the one you see in the list." },
+      { q: "Do you work with male clients?", a: "We do. Men's waxing for the back, shoulders, stomach and chest is in the price list, as are facials and the medical pedicure." }
+    ],
+    contactTitle: "Contact",
+    contactSub: "Ask anything - we answer the same day, on weekdays until 20:00.",
+    contactFormTitle: "Send a question",
+    contactPhoneLabel: "Phone and messages",
+    contactMailLabel: "Email",
+    contactAddrLabel: "Address",
+    contactWhat: "What you can ask us",
+    contactWhatItems: [
+      "Which treatment suits your skin or nails",
+      "Whether there is a slot outside the published hours",
+      "The price of a package or a combination of services",
+      "A gift voucher for a treatment"
+    ],
+    locationTitle: "Where we are",
+    locationNote: "Ring intercom 4, second floor. Parking in front of the building and in Ustanička.",
+    hoursTitle: "Opening hours",
+    formName: "Full name",
+    formEmail: "Email",
+    formPhone: "Phone",
+    formNote: "Message",
+    formNoteOpt: "Message (optional)",
+    formSend: "Send question",
+    formSent: "Sent. We will reply by email.",
+    required: "required",
+    aboutTitle: "About us",
+    aboutLead: "Beauty of Quince has worked since 2017, at the same address in Zvezdara.",
+    aboutBody: [
+      "The salon was founded to offer women a range of quality treatments that make them feel good in their own skin.",
+      "In the pleasant space of our salon in Zvezdara you are met by skilled and kind staff who give equal attention to your outer and inner beauty.",
+      "To make sure our clients are fully satisfied, we chose to work with the best products of leading cosmetic houses, the ones that give the strongest results."
+    ],
+    aboutEyebrow: "The salon",
+    jelenaTitle: "Jelena Đorđević-Nedić",
+    jelenaRole: "Entrepreneur and salon owner",
+    jelenaBody: [
+      "Jelena founded Beauty of Quince in 2017, with the idea of opening a salon people come to for the result, not for a discount. Today many of her clients have been coming for more than five years.",
+      "As a beautician she does nails, lashes, waxing, face and body treatments, massages and airbrush tanning. She picks products by skin type and suggests home care that makes sense for you, not the most expensive shelf in the salon.",
+      "If you are coming for the first time, she will also tell you when something is not for you, and explain why. That is why clients come back."
+    ],
+    galleryTitle: "Gallery",
+    galleryBack: "All services",
+    galleryEmpty: "Photos for this service are coming soon.",
+    galleryCount: "photos",
+    footerTagline: "A beauty salon in Zvezdara since 2017.",
+    footerRights: "All rights reserved.",
+    booking: {
+      title: "Book an appointment",
+      step: "Step",
+      of: "of",
+      s1: "Appointment",
+      s2: "Your details",
+      chosen: "Chosen service",
+      pickDate: "Pick a day",
+      pickTime: "Pick a time",
+      pickStaff: "Who should do it",
+      taken: "taken",
+      full: "fully booked",
+      closed: "closed",
+      passed: "passed",
+      next: "Continue to details",
+      back: "Back",
+      submit: "Book your appointment",
+      needDate: "Pick a day and a time.",
+      okTitle: "Your appointment is booked",
+      okBody: "The booking details arrive by email within a few minutes. If you need to change anything, call 061 2540589.",
+      okClose: "Close",
+      thisWeek: "This week",
+      firstName: "First name",
+      lastName: "Last name",
+      pay: "Cash payment at the salon, at the end of the treatment."
+    },
+    days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    min: "min",
+    rsd: "RSD"
+  }
+};
+
+const POPULAR_IMG = {
+  "Estetski pedikir + gel lak": "uploads/Manikir%20i%20pedikir%204.jpg",
+  "Korekcija nadogradnje / izlivanja / ojačavanja - L dužina": "uploads/Nadogradnja%20noktiju%2024.jpg",
+  "Brazilska depilacija toplim voskom - za dame": "uploads/beauty-of-quince_2_md.jpg",
+  "Nadogradnja svilenih trepavica - ruski volumen 3D": "uploads/Trepavice%201.jpg",
+  "Korekcija nadogradnje svilenih trepavica ruski volumen 3D - nakon 3 nedelje": "uploads/Trepavice%203.jpg",
+  "Higijenski tretman lica": "uploads/Tretmani%20lica%201.jpg",
+  "Airbrush potamnjivanje - celo telo": "uploads/Airbrush%20potamnjivanje%201.jpg"
+};
+
+const SECTION_IMG = {
+  problem: "uploads/beauty-of-quince_6_md.jpg",
+  solution: "uploads/beauty-of-quince_1_md.jpg",
+  benefits: "uploads/Manikir%20i%20pedikir%203.jpg",
+  offer: "uploads/beauty-of-quince_0_md.jpg",
+  faq: "uploads/Tretmani%20lica%201.jpg",
+  contact: "uploads/beauty-of-quince_2_md.jpg",
+  aboutSalon: "uploads/beauty-of-quince_1_md.jpg"
+};
+
+const QUOTES = {
+  nails: "Life is not perfect, but your nails can be",
+  lashes: "All I need is Coffee and Eyelashes",
+  work: "I never dreamed about success, I worked for it"
+};
+
+window.BQ_DATA = { INFO: INFO, RATINGS: RATINGS, REVIEWS: REVIEWS, STAFF: STAFF, PRODUCTS: PRODUCTS, CATS: CATS, GALLERY: GALLERY, T: T, POPULAR_IMG: POPULAR_IMG, SECTION_IMG: SECTION_IMG, QUOTES: QUOTES };
+})();
+
+</script>
+<script>
+/* Beauty of Quince - staticni sajt (vanilla JS) */
+(function () {
+  var D = window.BQ_DATA;
+  var PAGES = { home: 'index.html', about: 'o-nama.html', gallery: 'galerija.html' };
+  var page = document.body.getAttribute('data-page') || 'home';
+
+  var st = {
+    lang: localStorage.getItem('bq-lang') === 'e' ? 'e' : 's',
+    catIdx: 0, sel: null, exp: {}, faq: 0, prodPage: 0, gal: null, lb: null,
+    menu: false, mSvc: false, dd: false, active: null, flip: '', flipTick: 0,
+    bk: null, step: 1, date: null, time: null, staff: 'jelena', done: false, err: '',
+    fn: '', ln: '', em: '', ph: '', note: '', weekOff: 0,
+    cName: '', cEm: '', cPh: '', cNote: '', cSent: false, cErr: ''
+  };
+
+  function t(o) { return o == null ? '' : (typeof o === 'object' ? (o[st.lang] || '') : o); }
+  function L() { return D.T[st.lang]; }
+  function fmt(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function hash(s) { var h = 0; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return Math.abs(h); }
+  function iso(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  function svcName(it) { return t({ s: it.s, e: it.e }); }
+  function svcDesc(it) { return (st.lang === 's' ? it.ds : it.de) || ''; }
+  var ICO = {
+    clock: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#A87B4A" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>',
+    check: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A87B4A" stroke-width="1.8"><path d="M4 12.5l5 5L20 6"/></svg>',
+    checkSm: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A87B4A" stroke-width="1.9"><path d="M4 12.5l5 5L20 6"/></svg>',
+    checkWhite: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FBF8F4" stroke-width="2.6"><path d="M4 12.5l5 5L20 6"/></svg>',
+    boxCheck: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A87B4A" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12.5l3 3 5-6"/></svg>',
+    phone: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A87B4A" stroke-width="1.6"><path d="M5 3h4l2 5-3 2a12 12 0 006 6l2-3 5 2v4a2 2 0 01-2 2A17 17 0 013 5a2 2 0 012-2z"/></svg>',
+    mail: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A87B4A" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>',
+    pin: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A87B4A" stroke-width="1.6"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>',
+    cal: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FBF8F4" stroke-width="1.6"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 11h18"/></svg>',
+    chev: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#A87B4A" stroke-width="1.8" stroke-linecap="round"><path d="M6 9.5l6 6 6-6"/></svg>',
+    chevL: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 5.5l-7 6.5 7 6.5"/></svg>',
+    chevR: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 5.5l7 6.5-7 6.5"/></svg>'
+  };
+
+  /* ---------- shared ---------- */
+  function nav() {
+    var l = L(), cats = D.CATS, i;
+    var ddItems = '';
+    for (i = 0; i < cats.length; i++) ddItems += '<a href="' + PAGES.home + '?usluga=' + cats[i].id + '#cenovnik" data-act="cat" data-i="' + i + '">' + esc(t(cats[i].n)) + '</a>';
+    var svcAct = page === 'home' && st.active === 'cenovnik' ? ' act' : '';
+    var conAct = page === 'home' && st.active === 'kontakt' ? ' act' : '';
+    return '<div class="navbar"><div class="nav">' +
+      '<a class="brand" href="' + PAGES.home + '"><img src="uploads/60807389_444381906365035_741365162639884288_n.jpg" alt="Beauty of Quince"><span>Beauty of Quince</span></a>' +
+      '<div class="nav-links">' +
+        '<div style="position:relative"><button class="nav-link' + svcAct + '" data-act="dd">' + esc(l.nav.services) + '<span style="font-size:9px;opacity:.6">&#9660;</span></button>' +
+        (st.dd ? '<div class="dd">' + ddItems + '</div>' : '') + '</div>' +
+        '<a class="nav-link' + (page === 'about' ? ' act' : '') + '" href="' + PAGES.about + '">' + esc(l.nav.about) + '</a>' +
+        '<a class="nav-link' + (page === 'gallery' ? ' act' : '') + '" href="' + PAGES.gallery + '">' + esc(l.nav.gallery) + '</a>' +
+        '<a class="nav-link' + conAct + '" href="' + PAGES.home + '#kontakt" data-act="kontakt">' + esc(l.nav.contact) + '</a>' +
+      '</div>' +
+      '<div class="nav-spacer"></div>' +
+      '<div class="flags">' +
+        '<button class="flag' + (st.lang === 's' ? ' on' : '') + '" data-act="lang" data-v="s" title="Srpski"><img src="uploads/serbia-flag-icon.png" alt="Srpski"></button>' +
+        '<button class="flag' + (st.lang === 'e' ? ' on' : '') + '" data-act="lang" data-v="e" title="English"><img src="uploads/united-kingdom-flag-icon.webp" alt="English"></button>' +
+      '</div>' +
+      '<a class="nav-phone" href="' + D.INFO.phoneHref + '">' + ICO.phone + ' ' + D.INFO.phone + '</a>' +
+      '<button class="burger" data-act="menu" aria-label="Meni"><i></i><i></i><i></i></button>' +
+      '</div></div>' + (st.menu ? mSheet() : '');
+  }
+  function mSheet() {
+    var l = L();
+    var cats = D.CATS, out = '';
+    for (var i = 0; i < cats.length; i++) out += '<a class="m-sub" href="' + PAGES.home + '?usluga=' + cats[i].id + '#cenovnik" data-act="cat" data-i="' + i + '">' + esc(t(cats[i].n)) + '</a>';
+    return '<div class="scrim" data-act="closemenu"></div><div class="msheet">' +
+      '<button class="m-link" data-act="msvc"><span>' + esc(l.nav.services) + '</span><span class="m-chev' + (st.mSvc ? ' open' : '') + '">' + ICO.chev + '</span></button>' +
+      (st.mSvc ? '<div style="display:flex;flex-direction:column;animation:bqrise .2s ease-out">' + out + '</div>' : '') +
+      '<a class="m-link" href="' + PAGES.about + '">' + esc(l.nav.about) + '</a>' +
+      '<a class="m-link" href="' + PAGES.gallery + '">' + esc(l.nav.gallery) + '</a>' +
+      '<a class="m-link" href="' + PAGES.home + '#kontakt" data-act="kontakt">' + esc(l.nav.contact) + '</a>' +
+      '<a class="m-call" href="' + D.INFO.phoneHref + '">' + D.INFO.phone + '</a></div>';
+  }
+  function footer() {
+    var l = L(), cats = D.CATS, i, links = '', hrs = '';
+    for (i = 0; i < cats.length; i++) links += '<a href="' + PAGES.home + '?usluga=' + cats[i].id + '#cenovnik" data-act="cat" data-i="' + i + '">' + esc(t(cats[i].n)) + '</a>';
+    for (i = 0; i < D.INFO.hours.length; i++) hrs += '<p style="font-size:13px;margin:0 0 4px">' + esc(t(D.INFO.hours[i].d)) + ': ' + esc(t(D.INFO.hours[i].h)) + '</p>';
+    return '<footer class="foot"><div class="wrap"><div class="foot-grid">' +
+      '<div><div class="foot-brand"><img src="uploads/60807389_444381906365035_741365162639884288_n.jpg" alt="Beauty of Quince"><span>Beauty of Quince</span></div>' +
+      '<p style="font-size:14px;line-height:1.7;margin:0">' + esc(l.footerTagline) + '</p></div>' +
+      '<div><p class="foot-h">' + esc(l.nav.services) + '</p><div class="foot-links">' + links + '</div></div>' +
+      '<div><p class="foot-h">' + esc(l.nav.contact) + '</p>' +
+      '<p style="font-size:14px;line-height:1.8;margin:0 0 10px">Bulevar kralja Aleksandra 149/4<br>11050 Beograd</p>' +
+      '<p style="font-size:14px;margin:0 0 6px"><a href="' + D.INFO.phoneHref + '" style="color:#E9D9B9">' + D.INFO.phone + '</a></p>' +
+      '<p style="font-size:14px;margin:0 0 12px"><a href="mailto:' + D.INFO.email + '" style="color:#E9D9B9">' + D.INFO.email + '</a></p>' + hrs + '</div>' +
+      '</div><div class="foot-bot"><span>&copy; 2026 Beauty of Quince. ' + esc(l.footerRights) + '</span><span>' + esc(l.payNote) + '</span></div></div></footer>';
+  }
+  function fab() {
+    return '<button class="fab" data-act="toprice">' + ICO.cal + ' ' + esc(L().ctaLong) + '</button>';
+  }
+
+  /* ---------- home ---------- */
+  function hero() {
+    var l = L(), b = '', i;
+    for (i = 0; i < l.heroBadges.length; i++) b += '<span class="badge">' + esc(l.heroBadges[i]) + '</span>';
+    return '<section class="hero">' +
+      '<img src="uploads/beauty-of-quince-studio-lepote-slike-c7af46-69a13249-1.jpg" alt="Prostor salona Beauty of Quince">' +
+      '<div class="ov1"></div><div class="ov2"></div>' +
+      '<div class="hero-in"><p class="eyebrow eyebrow--light">' + esc(l.heroEyebrow) + '</p>' +
+      '<h1 class="h1 h1--light">' + esc(l.heroTitle) + '</h1>' +
+      '<p class="lead lead--light">' + esc(l.heroSub) + '</p>' +
+      '<div class="badges">' + b + '</div>' +
+      '<button class="btn btn--light" data-act="toprice">' + esc(l.ctaLong) + '</button></div></section>' +
+      '<div class="wave"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,40 C240,90 420,0 720,26 C1010,52 1220,92 1440,44 L1440,90 L0,90 Z" fill="#FBF8F4"></path></svg></div>';
+  }
+  function problem() {
+    var l = L(), p = '', i;
+    for (i = 0; i < l.problemBody.length; i++) p += '<p class="p">' + esc(l.problemBody[i]) + '</p>';
+    return '<section class="sec"><div class="grid2 rv"><div><h2 class="h2">' + esc(l.problemTitle) + '</h2>' + p + '</div>' +
+      '<div class="img-tall"><img src="' + D.SECTION_IMG.problem + '" alt="Beauty of Quince"></div></div></section>';
+  }
+  function solution() {
+    var l = L(), pts = '', i;
+    for (i = 0; i < l.solutionPoints.length; i++) pts += '<div>' + ICO.checkSm + '<span>' + esc(l.solutionPoints[i]) + '</span></div>';
+    return '<section class="sec sec--beige"><div class="grid2 rv">' +
+      '<div class="img-tall"><img src="' + D.SECTION_IMG.solution + '" alt="Beauty of Quince salon"></div>' +
+      '<div><p class="eyebrow">Beauty of Quince</p><h2 class="h2">' + esc(l.solutionTitle) + '</h2>' +
+      '<p class="p">' + esc(l.solutionBody) + '</p><div class="pt-list">' + pts + '</div>' +
+      '<p class="quote" style="margin:26px 0 0">&ldquo;' + esc(D.QUOTES.work) + '&rdquo;</p></div></div></section>';
+  }
+  function creds() {
+    var l = L(), c = '', i, x;
+    for (i = 0; i < l.creds.length; i++) {
+      x = l.creds[i];
+      c += '<div class="cred-card"><div style="display:flex;align-items:center;margin-bottom:18px"><span class="ico">' +
+        '<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#A87B4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="' + x.p + '"/></svg></span></div>' +
+        '<h3 class="h4">' + esc(x.t) + '</h3><p class="p-sm">' + esc(x.d) + '</p><p class="cred-hl">' + esc(x.hl) + '</p></div>';
+    }
+    return '<section class="sec"><div class="wrap rv"><h2 class="h2">' + esc(l.credTitle) + '</h2><p class="p">' + esc(l.credSub) + '</p><div class="grid4">' + c + '</div></div></section>';
+  }
+  function benefits() {
+    var l = L(), b = '', i;
+    for (i = 0; i < l.benefits.length; i++) b += '<div>' + ICO.check + '<span>' + esc(l.benefits[i]) + '</span></div>';
+    return '<section class="sec sec--beige"><div class="grid2 rv"><div><h2 class="h2">' + esc(l.benefitsTitle) + '</h2>' +
+      '<div class="img-wide"><img src="' + D.SECTION_IMG.benefits + '" alt="Beauty of Quince"></div>' +
+      '<p class="note">' + esc(l.payNote) + '</p></div>' +
+      '<div class="check-list">' + b + '</div></div></section>';
+  }
+  function popularList() {
+    var out = [], ci, ii, c, it, img;
+    for (ci = 0; ci < D.CATS.length; ci++) {
+      c = D.CATS[ci];
+      for (ii = 0; ii < c.items.length; ii++) {
+        it = c.items[ii];
+        if (!it.pop) continue;
+        img = D.POPULAR_IMG[it.s] || '';
+        out.push({ ci: ci, ii: ii, name: svcName(it), cat: t(c.n), desc: svcDesc(it), img: img, meta: it.m + ' ' + L().min + ' \u00b7 ' + fmt(it.p) + ' ' + L().rsd, id: c.id + ':' + ii });
+      }
+    }
+    return out;
+  }
+  function popular() {
+    var l = L(), pops = popularList(), loop = pops.concat(pops), cards = '', i, p;
+    for (i = 0; i < loop.length; i++) {
+      p = loop[i];
+      cards += '<button class="pop" data-act="pop" data-i="' + p.ci + '" data-id="' + esc(p.id) + '">' +
+        '<div class="pop-img">' + (p.img ? '<img src="' + p.img + '" alt="' + esc(p.name) + '">' : '<div class="hatch"></div>') +
+        '<span class="pop-pill">' + esc(l.popularPill) + '</span></div>' +
+        '<div class="pop-body"><p class="pop-cat">' + esc(p.cat) + '</p><h3>' + esc(p.name) + '</h3>' +
+        '<p class="pop-desc">' + esc(p.desc) + '</p>' +
+        '<div class="pop-foot"><span>' + esc(p.meta) + '</span><span>' + esc(l.popularCta) + ' &rarr;</span></div></div></button>';
+    }
+    return '<section class="sec sec--dark"><div class="wrap">' +
+      '<div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:36px">' +
+      '<div><p class="eyebrow eyebrow--light">' + esc(l.popularPill) + '</p><h2 class="h2 h2--light">' + esc(l.popularTitle) + '</h2>' +
+      '<p style="font-size:17px;color:rgba(251,248,244,.7);margin:10px 0 0;max-width:52ch">' + esc(l.popularSub) + '</p></div>' +
+      '<button class="btn btn--light" data-act="toprice">' + esc(l.ctaLong) + '</button></div></div>' +
+      '<div class="mq-mask"><div class="mq">' + cards + '</div></div></section>';
+  }
+  function priceList() {
+    var l = L(), cats = D.CATS, cat = cats[st.catIdx], i, it, tabs = '', rows = '';
+    for (i = 0; i < cats.length; i++) tabs += '<button class="tab' + (i === st.catIdx ? ' on' : '') + '" data-act="cat" data-i="' + i + '">' + esc(t(cats[i].n)) + '</button>';
+    for (i = 0; i < cat.items.length; i++) {
+      it = cat.items[i];
+      var id = cat.id + ':' + i, sel = st.sel === id, exp = !!st.exp[id], desc = svcDesc(it);
+      rows += '<div class="row' + (sel ? ' sel' : '') + '" id="svc-' + cat.id + '-' + i + '">' +
+        '<div class="row-top" data-act="sel" data-id="' + esc(id) + '">' +
+        '<span class="box">' + (sel ? ICO.checkWhite : '') + '</span>' +
+        '<div class="row-name"><p>' + esc(svcName(it)) + '</p>' +
+        (it.off ? '<span class="off"><b>-' + it.off + '%</b><s>' + fmt(it.old) + '</s></span>' : '') + '</div>' +
+        '<div class="row-right"><span class="row-price">' + fmt(it.p) + ' ' + esc(l.rsd) + '</span>' +
+        '<span class="row-dur">' + ICO.clock + it.m + ' ' + esc(l.min) + '</span></div></div>' +
+        (desc ? '<div class="row-desc"><p' + (exp ? '' : ' class="clamp"') + '>' + esc(desc) + '</p>' +
+          '<button class="more" data-act="more" data-id="' + esc(id) + '">' + esc(exp ? l.less : l.more) + '</button></div>' : '') +
+        (sel ? '<div class="row-book"><button class="btn btn--sm" data-act="book" data-id="' + esc(id) + '">' + esc(l.book) + '</button></div>' : '') +
+        '</div>';
+    }
+    return '<section class="sec" id="cenovnik"><div class="wrap"><div class="price-col">' +
+      '<div class="price-head"><h2 class="h2">' + esc(l.priceTitle) + '</h2><p class="p">' + esc(l.priceSub) + '</p></div>' +
+      '<div class="tabs">' + tabs + '</div>' +
+      '<div class="book' + (st.flip ? ' fl-' + st.flip : '') + '" data-tick="' + st.flipTick + '">' +
+      '<div class="book-left">' + (cat.img ? '<img src="' + cat.img + '" alt="' + esc(t(cat.n)) + '">' :
+        '<div class="hatch" style="display:flex;align-items:center;justify-content:center;padding:24px"><span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.12em;color:#7A6A56;text-align:center">' + esc(cat.imgLabel ? t(cat.imgLabel) : '') + '</span></div>') +
+      '<div class="ov"></div><div class="cap"><p>' + (st.catIdx + 1) + ' / ' + cats.length + '</p><h3>' + esc(t(cat.n)) + '</h3></div></div>' +
+      '<div class="book-right"><div class="book-head"><div>' +
+      '<p class="hint">' + ICO.boxCheck + esc(l.priceHint) + '</p></div>' +
+      '<span style="font-size:12px;letter-spacing:.16em;color:#8B7E70;flex:0 0 auto;padding-top:6px">' + esc(l.rsd) + '</span></div>' +
+      '<div class="book-list">' + rows + '</div>' +
+      '<div class="pagers"><button class="pg" data-act="pg" data-v="p" aria-label="' + esc(l.pagePrev) + '">' + ICO.chevL + '</button>' +
+      '<button class="pg" data-act="pg" data-v="n" aria-label="' + esc(l.pageNext) + '">' + ICO.chevR + '</button></div>' +
+      '</div></div>' +
+      '<p class="quote" style="margin:34px 0 0;text-align:center">&ldquo;' + esc(D.QUOTES.nails) + '&rdquo;</p></div></div></section>';
+  }
+  function reviews() {
+    var l = L(), rows = '', cards = '', i, r;
+    for (i = 0; i < D.RATINGS.rows.length; i++) {
+      r = D.RATINGS.rows[i];
+      rows += '<div><div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:7px"><span style="color:#4A4038">' + esc(t(r.l)) + '</span>' +
+        '<span>' + esc(st.lang === 's' ? String(r.v).replace('.', ',') : String(r.v)) + '</span></div>' +
+        '<div class="bar"><i style="width:' + (r.v * 10) + '%"></i></div></div>';
+    }
+    for (i = 0; i < D.REVIEWS.length; i++) {
+      r = D.REVIEWS[i];
+      cards += '<div class="rev-card"><img src="' + r.img + '" alt="' + esc(r.name) + '">' +
+        '<div><p style="font-size:16px;line-height:1.6;color:#2C251E;margin:0 0 8px">' + esc(t(r.t)) + '</p>' +
+        '<p style="font-size:13px;letter-spacing:.04em;color:#8B7E70;margin:0">' + esc(r.name) + '</p></div></div>';
+    }
+    return '<section class="sec sec--beige"><div class="wrap rv"><h2 class="h2">' + esc(l.reviewsTitle) + '</h2><p class="p">' + esc(l.reviewsSub) + '</p>' +
+      '<div class="rev-grid"><div class="rate-card"><div style="margin-bottom:22px"><span class="rate-big">' + esc(st.lang === 's' ? D.RATINGS.overall : '9.8') + '</span>' +
+      '<span class="rate-lbl">' + esc(l.ratingOf) + '</span></div><div style="display:flex;flex-direction:column;gap:16px">' + rows + '</div></div>' +
+      '<div style="display:flex;flex-direction:column;gap:16px">' + cards + '</div></div></div></section>';
+  }
+  function products() {
+    var l = L(), per = window.innerWidth < 768 ? 1 : window.innerWidth < 1000 ? 2 : 3;
+    var pages = Math.ceil(D.PRODUCTS.length / per), pp = ((st.prodPage % pages) + pages) % pages, cards = '', i, p;
+    for (i = 0; i < D.PRODUCTS.length; i++) {
+      p = D.PRODUCTS[i];
+      var vis = i >= pp * per && i < pp * per + per;
+      cards += '<div class="prod-card"' + (vis ? '' : ' style="display:none"') + '>' +
+        '<img src="' + p.img + '" alt="' + esc(p.n) + '" decoding="async" fetchpriority="' + (vis ? 'high' : 'low') + '"><div style="padding:20px">' +
+        '<h3>' + esc(p.n) + '</h3><p style="font-size:14px;line-height:1.6;color:#6E6155;margin:0">' + esc(t(p.u)) + '</p></div></div>';
+    }
+    return '<section class="sec"><div class="wrap rv">' +
+      '<div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px">' +
+      '<div><h2 class="h2">' + esc(l.productsTitle) + '</h2><p class="p">' + esc(l.productsSub) + '</p></div>' +
+      '<div style="display:flex;gap:8px"><button class="arrow" data-act="prod" data-v="-1">&larr;</button><button class="arrow" data-act="prod" data-v="1">&rarr;</button></div></div>' +
+      '<div class="grid3">' + cards + '</div>' +
+      '<p style="font-size:13px;color:#8B7E70;margin:18px 0 0;text-align:center">' + (pp + 1) + ' / ' + pages + '</p></div></section>';
+  }
+  function offer() {
+    var l = L(), rows = '', i, o;
+    for (i = 0; i < l.offerItems.length; i++) {
+      o = l.offerItems[i];
+      rows += '<div class="offer-row"><span class="offer-num">0' + (i + 1) + '</span><div style="flex:1 1 auto;min-width:0">' +
+        '<h3>' + esc(o.t) + '</h3><p class="p-sm">' + esc(o.d) + '</p></div></div>';
+    }
+    return '<section class="sec sec--beige"><div class="offer-split rv">' +
+      '<div><p class="eyebrow">Beauty of Quince</p><h2 class="h2">' + esc(l.offerTitle) + '</h2>' +
+      '<p class="p">' + esc(l.offerLead) + '</p>' +
+      '<p class="note" style="margin:0 0 26px">' + esc(l.payNote) + '</p>' +
+      '<button class="btn" data-act="toprice">' + esc(l.ctaLong) + '</button></div>' +
+      '<div style="display:flex;flex-direction:column">' + rows + '</div></div></section>' +
+      '<section class="band"><img src="uploads/beauty-of-quince_5_md.jpg" alt="Prostor salona Beauty of Quince"><div class="ov"></div>' +
+      '<div class="band-in"><p class="eyebrow eyebrow--light">Beauty of Quince &middot; Zvezdara</p>' +
+      '<p class="band-q">&ldquo;' + esc(D.QUOTES.lashes) + '&rdquo;</p>' +
+      '<button class="btn btn--light" data-act="toprice">' + esc(l.ctaLong) + '</button></div></section>';
+  }
+  function faq() {
+    var l = L(), items = '', i, f;
+    for (i = 0; i < l.faq.length; i++) {
+      f = l.faq[i];
+      items += '<div class="faq-item' + (st.faq === i ? ' on' : '') + '"><button class="faq-q" data-act="faq" data-i="' + i + '">' +
+        '<span>' + esc(f.q) + '</span><span class="faq-sign">+</span></button>' +
+        (st.faq === i ? '<p class="faq-a">' + esc(f.a) + '</p>' : '') + '</div>';
+    }
+    return '<section class="sec" id="faq"><div class="grid2 rv">' +
+      '<div><h2 class="h2">' + esc(l.faqTitle) + '</h2><p class="p">' + esc(l.faqSub) + '</p>' +
+      '<div class="img-wide"><img src="' + D.SECTION_IMG.faq + '" alt="Beauty of Quince"></div>' +
+      '<p style="font-size:15px;line-height:1.7;color:#6E6155;margin:22px 0 0">' + esc(l.ctaNote) + '</p></div>' +
+      '<div class="faq">' + items + '</div></div></section>';
+  }
+  function locationSec() {
+    var l = L(), hrs = '', i;
+    for (i = 0; i < D.INFO.hours.length; i++) hrs += '<div><span>' + esc(t(D.INFO.hours[i].d)) + '</span><span>' + esc(t(D.INFO.hours[i].h)) + '</span></div>';
+    return '<section class="sec sec--beige"><div class="wrap rv"><h2 class="h2">' + esc(l.locationTitle) + '</h2>' +
+      '<div class="grid2-tight"><div><p class="eyebrow">' + esc(l.hoursTitle) + '</p><div class="hours" style="margin:0 0 28px">' + hrs + '</div>' +
+      '<p class="eyebrow">' + esc(l.contactAddrLabel) + '</p>' +
+      '<p style="font-size:17px;line-height:1.6;color:#2C251E;margin:0 0 6px">Bulevar kralja Aleksandra 149/4, 2. sprat, stan 4</p>' +
+      '<p style="font-size:17px;line-height:1.6;color:#2C251E;margin:0 0 6px">11050 Beograd</p>' +
+      '<p style="font-size:15px;color:#8B7E70;margin:0 0 14px">' + esc(t(D.INFO.area)) + '</p>' +
+      '<p style="font-size:15px;line-height:1.7;color:#6E6155;margin:0">' + esc(l.locationNote) + '</p>' +
+      '<p style="font-size:17px;color:#2C251E;margin:22px 0 0"><a href="' + D.INFO.phoneHref + '">' + D.INFO.phone + '</a></p></div>' +
+      '<div class="map"><iframe src="' + D.INFO.mapEmbed + '" title="Mapa" loading="lazy"></iframe></div></div></div></section>';
+  }
+  function contact() {
+    var l = L();
+    var form = st.cSent ? '<div class="ok">' + esc(l.formSent) + '</div>' :
+      '<div class="form">' +
+      '<label class="label">' + esc(l.formName) + ' *<input class="input" data-f="cName" value="' + esc(st.cName) + '"></label>' +
+      '<label class="label">' + esc(l.formEmail) + ' *<input class="input" type="email" inputmode="email" data-f="cEm" value="' + esc(st.cEm) + '"></label>' +
+      '<label class="label">' + esc(l.formPhone) + '<input class="input" type="tel" inputmode="tel" data-f="cPh" value="' + esc(st.cPh) + '"></label>' +
+      '<label class="label">' + esc(l.formNote) + ' *<textarea class="input" rows="4" data-f="cNote">' + esc(st.cNote) + '</textarea></label>' +
+      '<button class="btn" data-act="csend">' + esc(l.formSend) + '</button>' +
+      '<p class="err">' + esc(st.cErr) + '</p></div>';
+    return '<section class="sec" id="kontakt"><div class="grid2 rv">' +
+      '<div><h2 class="h2">' + esc(l.contactTitle) + '</h2><p class="p">' + esc(l.contactSub) + '</p>' +
+      '<div class="c-rows">' +
+      '<a class="c-row" href="' + D.INFO.phoneHref + '"><span class="ico">' + ICO.phone + '</span><span><span class="c-lbl">' + esc(l.contactPhoneLabel) + '</span><span class="c-val">' + D.INFO.phone + '</span></span></a>' +
+      '<a class="c-row" href="mailto:' + D.INFO.email + '"><span class="ico">' + ICO.mail + '</span><span><span class="c-lbl">' + esc(l.contactMailLabel) + '</span><span class="c-val">' + D.INFO.email + '</span></span></a>' +
+      '<div class="c-row"><span class="ico">' + ICO.pin + '</span><span><span class="c-lbl">' + esc(l.contactAddrLabel) + '</span><span class="c-val">Bulevar kralja Aleksandra 149/4, Beograd</span></span></div>' +
+      '</div></div>' +
+      '<div class="form-card"><h3 class="h3">' + esc(l.contactFormTitle) + '</h3>' + form + '</div></div></section>';
+  }
+
+  /* ---------- about / gallery ---------- */
+  function about() {
+    var l = L(), a = '', j = '', i;
+    for (i = 0; i < l.aboutBody.length; i++) a += '<p class="p">' + esc(l.aboutBody[i]) + '</p>';
+    for (i = 0; i < l.jelenaBody.length; i++) j += '<p class="p">' + esc(l.jelenaBody[i]) + '</p>';
+    return '<section class="sec sec--top"><div class="wrap"><p class="eyebrow">Beauty of Quince &middot; 2017</p>' +
+      '<h1 class="h1s">' + esc(l.aboutTitle) + '</h1><p class="lead">' + esc(l.aboutLead) + '</p></div></section>' +
+      '<section class="sec sec--notop"><div class="grid2 rv">' +
+      '<div class="img-tall"><img src="' + D.SECTION_IMG.aboutSalon + '" alt="Salon Beauty of Quince"></div>' +
+      '<div><p class="eyebrow">' + esc(l.aboutEyebrow) + '</p><h2 class="h2">Beauty of Quince</h2>' + a + '</div></div></section>' +
+      '<section class="sec sec--beige"><div class="grid2 rv">' +
+      '<div class="img-tall"><img src="uploads/Jelena%20Djordjevic%20Nedic.png" alt="Jelena \u0110or\u0111evi\u0107-Nedi\u0107"></div>' +
+      '<div><p class="eyebrow">' + esc(l.jelenaRole) + '</p><h2 class="h2">' + esc(l.jelenaTitle) + '</h2>' + j +
+      '<p class="quote" style="margin:24px 0 0">&ldquo;' + esc(D.QUOTES.work) + '&rdquo;</p>' +
+      '<div style="margin-top:28px"><a class="btn" href="' + PAGES.home + '#cenovnik">' + esc(l.ctaLong) + '</a></div></div></div></section>';
+  }
+  function gallery() {
+    var l = L(), cats = D.CATS, i, out = '';
+    if (!st.gal) {
+      for (i = 0; i < cats.length; i++) {
+        var imgs = D.GALLERY[cats[i].id] || [];
+        out += '<div class="folder rv-s" data-act="folder" data-id="' + cats[i].id + '">' +
+          (imgs.length ? '<img src="' + imgs[0] + '" alt="' + esc(t(cats[i].n)) + '">' : '<div class="hatch"></div>') +
+          '<div class="ov"></div><div class="cap"><h3>' + esc(t(cats[i].n)) + '</h3><p>' + imgs.length + ' ' + esc(l.galleryCount) + '</p></div></div>';
+      }
+      out = '<div class="grid3">' + out + '</div>';
+    } else {
+      var g = D.GALLERY[st.gal] || [], gi = '';
+      for (i = 0; i < g.length; i++) gi += '<img class="rv-s" src="' + g[i] + '" alt="' + esc(st.gal) + '" data-act="lb" data-src="' + g[i] + '">';
+      out = (g.length ? '<div class="gal-grid">' + gi + '</div>' : '<div class="empty">' + esc(l.galleryEmpty) + '</div>');
+    }
+    var cur = st.gal ? cats.filter(function (c) { return c.id === st.gal; })[0] : null;
+    return '<section class="sec sec--top"><div class="wrap"><p class="eyebrow">Beauty of Quince</p>' +
+      '<h1 class="h1s">' + esc(cur ? t(cur.n) : l.galleryTitle) + '</h1>' +
+      (st.gal ? '<button class="pager" data-act="galback">&larr; ' + esc(l.galleryBack) + '</button>' : '') +
+      '</div></section><section class="sec sec--notop"><div class="wrap">' + out + '</div></section>';
+  }
+
+  /* ---------- booking ---------- */
+  function workClose(d) { var g = d.getDay(); if (g === 0) return null; return g === 6 ? 16 * 60 : 20 * 60; }
+  function slotsFor(d, dur) {
+    var close = workClose(d); if (!close) return [];
+    var key = iso(d), out = [], now = new Date(), today = iso(now) === key;
+    var nowM = now.getHours() * 60 + now.getMinutes();
+    for (var m = 600; m + dur <= close; m += 15) {
+      var label = String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0');
+      var past = today && m <= nowM + 15;
+      out.push({ label: label, past: past, taken: past || hash(key + label) % 4 === 0 });
+    }
+    return out;
+  }
+  function modal() {
+    if (!st.bk) return '';
+    var l = L(), B = l.booking, i;
+    if (st.done) {
+      return '<div class="ovl"><div class="modal"><div class="done">' +
+        '<div class="circle"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2F7A55" stroke-width="1.6"><path d="M4 12.5l5 5L20 6"/></svg></div>' +
+        '<h3>' + esc(B.okTitle) + '</h3>' +
+        '<p style="font-size:16px;line-height:1.7;color:#6E6155;margin:0 auto 10px;max-width:44ch">' + esc(B.okBody) + '</p>' +
+        '<p style="font-size:15px;margin:0 auto 26px;max-width:44ch">' + esc(summary()) + '</p>' +
+        '<button class="btn" data-act="bclose">' + esc(B.okClose) + '</button></div></div></div>';
+    }
+    var today = new Date(); today.setHours(0, 0, 0, 0);
+    var mon = new Date(today); mon.setDate(today.getDate() - ((today.getDay() + 6) % 7) + st.weekOff * 7);
+    var days = '', selDate = null;
+    for (i = 0; i < 7; i++) {
+      var d = new Date(mon); d.setDate(mon.getDate() + i);
+      var key = iso(d), past = d < today, closed = d.getDay() === 0;
+      var free = past || closed ? [] : slotsFor(d, st.bk.m).filter(function (s) { return !s.taken; });
+      var full = !past && !closed && (free.length === 0 || hash(key + 'f') % 11 === 0);
+      var off = past || closed || full, on = st.date === key;
+      if (on) selDate = d;
+      days += '<button class="day' + (off ? ' off' : '') + (on ? ' on' : '') + '"' + (off ? '' : ' data-act="day" data-v="' + key + '"') + '>' +
+        '<u>' + esc(l.days[d.getDay()]) + '</u><b>' + d.getDate() + '</b><i>' + esc(closed ? B.closed : past ? B.passed : full ? B.full : '\u00a0') + '</i></button>';
+    }
+    var timeBlock = '';
+    if (st.date) {
+      if (!selDate) selDate = new Date(st.date + 'T00:00:00');
+      var slots = slotsFor(selDate, st.bk.m), sl = '', freeN = 0;
+      for (i = 0; i < slots.length; i++) {
+        if (!slots[i].taken) freeN++;
+        sl += '<button class="slot' + (slots[i].taken ? ' taken' : '') + (st.time === slots[i].label ? ' on' : '') + '"' +
+          (slots[i].taken ? '' : ' data-act="slot" data-v="' + slots[i].label + '"') + '>' + slots[i].label + '</button>';
+      }
+      var stf = '';
+      for (i = 0; i < D.STAFF.length; i++) {
+        stf += '<button class="staff-opt' + (st.staff === D.STAFF[i].id ? ' on' : '') + '" data-act="staff" data-v="' + D.STAFF[i].id + '">' +
+          '<i></i><span>' + esc(D.STAFF[i].name + ' \u00b7 ' + t(D.STAFF[i].role)) + '</span></button>';
+      }
+      timeBlock = '<div style="margin-top:26px"><p class="field-h">' + esc(B.pickTime) + '</p><div class="slots">' + sl + '</div>' +
+        '<p style="font-size:12.5px;color:#8B7E70;margin:12px 0 0">' + esc(st.lang === 's' ? ('Slobodnih termina: ' + freeN + '. Prekri\u017eeni su zauzeti ili su ve\u0107 pro\u0161li.') : ('Free slots: ' + freeN + '. Crossed-out times are taken or already passed.')) + '</p></div>' +
+        '<div style="margin-top:26px"><p class="field-h">' + esc(B.pickStaff) + '</p><div class="staff">' + stf + '</div></div>';
+    }
+    var step1 = '<div><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px">' +
+      '<p class="field-h" style="margin:0">' + esc(B.pickDate) + '</p>' +
+      '<div style="display:flex;align-items:center;gap:8px"><button class="arrow arrow--sm" data-act="week" data-v="-1">&larr;</button>' +
+      '<span style="font-size:13px;color:#6E6155;min-width:96px;text-align:center">' + esc(l.months[mon.getMonth()] + (st.weekOff === 0 ? ' \u00b7 ' + B.thisWeek : '')) + '</span>' +
+      '<button class="arrow arrow--sm" data-act="week" data-v="1">&rarr;</button></div></div>' +
+      '<div class="days">' + days + '</div>' + timeBlock +
+      '<div class="row-btns"><button class="btn" data-act="bnext">' + esc(B.next) + '</button><span class="err">' + esc(st.err) + '</span></div></div>';
+    var step2 = '<div><p class="note" style="margin:0 0 22px">' + esc(summary()) + '</p>' +
+      '<div class="form-grid">' +
+      '<label class="label">' + esc(B.firstName) + ' *<input class="input" data-f="fn" value="' + esc(st.fn) + '"></label>' +
+      '<label class="label">' + esc(B.lastName) + ' *<input class="input" data-f="ln" value="' + esc(st.ln) + '"></label>' +
+      '<label class="label">' + esc(l.formEmail) + ' *<input class="input" type="email" inputmode="email" data-f="em" value="' + esc(st.em) + '"></label>' +
+      '<label class="label">' + esc(l.formPhone) + ' *<input class="input" type="tel" inputmode="tel" data-f="ph" value="' + esc(st.ph) + '"></label></div>' +
+      '<label class="label" style="margin-top:16px">' + esc(l.formNoteOpt) + '<textarea class="input" rows="3" data-f="note">' + esc(st.note) + '</textarea></label>' +
+      '<p style="font-size:14px;color:#6E6155;margin:18px 0 0">' + esc(B.pay) + '</p>' +
+      '<div class="row-btns"><button class="pager" data-act="bback">&larr; ' + esc(B.back) + '</button>' +
+      '<button class="btn" data-act="bsubmit">' + esc(B.submit) + '</button><span class="err">' + esc(st.err) + '</span></div></div>';
+    return '<div class="ovl"><div class="modal">' +
+      '<div class="modal-head"><div><p class="eyebrow">' + esc(B.step + ' ' + st.step + ' ' + B.of + ' 2 \u00b7 ' + (st.step === 1 ? B.s1 : B.s2)) + '</p>' +
+      '<h3>' + esc(B.title) + '</h3></div><button class="x" data-act="bclose">&times;</button></div>' +
+      '<div class="bars"><i class="on"></i><i' + (st.step === 2 ? ' class="on"' : '') + '></i></div>' +
+      '<div class="chosen"><p>' + esc(B.chosen) + '</p><p class="nm">' + esc(st.bk.name) + '</p>' +
+      '<div class="meta"><span>' + st.bk.m + ' ' + esc(l.min) + '</span><span style="color:#17130F">' + fmt(st.bk.p) + ' ' + esc(l.rsd) + '</span><span>' + esc(st.bk.cat) + '</span></div></div>' +
+      (st.step === 1 ? step1 : step2) + '</div></div>';
+  }
+  function summary() {
+    if (!st.bk) return '';
+    var l = L(), d = st.date ? new Date(st.date + 'T00:00:00') : null;
+    var txt = d ? (l.days[d.getDay()] + ' ' + d.getDate() + '. ' + l.months[d.getMonth()]) : '';
+    return st.bk.name + ' \u00b7 ' + txt + ' \u00b7 ' + (st.time || '') + ' \u00b7 ' + (D.STAFF[0] ? D.STAFF[0].name : '');
+  }
+  function lightbox() {
+    return st.lb ? '<div class="lb" data-act="lbclose"><img src="' + st.lb + '" alt=""><button data-act="lbclose">&times;</button></div>' : '';
+  }
+
+  /* ---------- render ---------- */
+  function render(opts) {
+    var keep = !(opts && opts.top);
+    var sy = window.scrollY, bl = document.querySelector('.book-list'), lst = bl ? bl.scrollTop : 0;
+    var body = page === 'about' ? about() : page === 'gallery' ? gallery() :
+      hero() + problem() + solution() + creds() + benefits() + popular() + priceList() +
+      reviews() + products() + offer() + faq() + locationSec() + contact();
+    document.getElementById('app').innerHTML = nav() + body + footer() + fab() + modal() + lightbox();
+    document.documentElement.lang = st.lang === 's' ? 'sr' : 'en';
+    reveal();
+    if (keep) {
+      var b2 = document.querySelector('.book-list');
+      if (b2 && lst) b2.scrollTop = lst;
+      if (Math.abs(window.scrollY - sy) > 1) window.scrollTo({ top: sy, behavior: 'auto' });
+    } else window.scrollTo({ top: 0, behavior: 'auto' });
+  }
+  var seen = [];
+  function reveal() {
+    var els = document.querySelectorAll('.rv,.rv-s'), vh = window.innerHeight, i, el, r;
+    for (i = 0; i < els.length; i++) {
+      el = els[i];
+      if (el.classList.contains('in')) continue;
+      if (el.className.indexOf('rv-s') > -1 && !el.style.transitionDelay) {
+        var idx = Array.prototype.indexOf.call(el.parentNode.children, el);
+        el.style.transitionDelay = ((idx % 12) * 45) + 'ms';
+      }
+      r = el.getBoundingClientRect();
+      if (r.top < vh * 0.92) el.classList.add('in');
+    }
+  }
+  function trackActive() {
+    if (page !== 'home') return;
+    var y = window.innerHeight * 0.42, cur = null;
+    ['cenovnik', 'faq', 'kontakt'].forEach(function (id) {
+      var el = document.getElementById(id); if (!el) return;
+      var r = el.getBoundingClientRect();
+      if (r.top <= y && r.bottom >= 100) cur = id;
+    });
+    if (cur !== st.active) {
+      st.active = cur;
+      var links = document.querySelectorAll('.nav-links .nav-link');
+      if (links.length === 4) {
+        links[0].classList.toggle('act', cur === 'cenovnik');
+        links[3].classList.toggle('act', cur === 'kontakt');
+      }
+    }
+  }
+  function jump(id) {
+    var el = document.getElementById(id); if (!el) return;
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 90, behavior: 'auto' });
+  }
+  function jumpList() {
+    var lst = document.querySelector('.book-right') || document.querySelector('.book-list');
+    if (!lst) return jump('cenovnik');
+    var bl = document.querySelector('.book-list');
+    if (bl) bl.scrollTop = 0;
+    var top = lst.getBoundingClientRect().top + window.scrollY - 92;
+    window.scrollTo({ top: Math.max(0, top), behavior: 'auto' });
+  }
+  function jumpItem(id) {
+    var el = document.getElementById('svc-' + String(id).replace(/:/g, '-'));
+    if (!el) return jump('cenovnik');
+    var list = el.parentNode;
+    if (list && list.scrollHeight > list.clientHeight + 4) list.scrollTop = Math.max(0, el.offsetTop - list.offsetTop - 10);
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 120, behavior: 'auto' });
+  }
+  function findItem(id) {
+    var p = String(id).split(':'), i;
+    for (i = 0; i < D.CATS.length; i++) if (D.CATS[i].id === p[0]) return { cat: D.CATS[i], it: D.CATS[i].items[+p[1]] };
+    return null;
+  }
+  function setCat(i, dir, sel) {
+    var n = D.CATS.length;
+    st.catIdx = ((i % n) + n) % n;
+    st.sel = sel || null;
+    st.flip = dir;
+    st.flipTick++;
+    render();
+  }
+
+  /* ---------- events ---------- */
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest('[data-act]');
+    if (!el) return;
+    var act = el.getAttribute('data-act'), v = el.getAttribute('data-v'), id = el.getAttribute('data-id');
+    var i = el.getAttribute('data-i'), l = L(), sr = st.lang === 's';
+
+    if (act === 'lang') { st.lang = v; localStorage.setItem('bq-lang', v); st.dd = false; render(); return; }
+    if (act === 'dd') { st.dd = !st.dd; render(); return; }
+    if (act === 'menu') { st.menu = !st.menu; render(); return; }
+    if (act === 'closemenu') { st.menu = false; st.mSvc = false; render(); return; }
+    if (act === 'msvc') { st.mSvc = !st.mSvc; render(); return; }
+    if (act === 'toprice') { if (page === 'home') { e.preventDefault(); jump('cenovnik'); } else location.href = PAGES.home + '#cenovnik'; return; }
+    if (act === 'kontakt') { if (page === 'home') { e.preventDefault(); st.menu = false; render(); jump('kontakt'); } return; }
+    if (act === 'cat') {
+      e.preventDefault();
+      var cid = D.CATS[+i] ? D.CATS[+i].id : '';
+      try { sessionStorage.setItem('bq-cat', cid); } catch (er) {}
+      if (page !== 'home') { location.href = PAGES.home + '?usluga=' + cid + '#cenovnik'; return; }
+      st.menu = false; st.dd = false; st.mSvc = false;
+      setCat(+i, +i < st.catIdx ? 'p' : 'n');
+      try { history.replaceState(null, '', PAGES.home + '?usluga=' + cid + '#cenovnik'); } catch (er2) {}
+      setTimeout(function () { jump('cenovnik'); }, 40);
+      return;
+    }
+    if (act === 'pg') { setCat(st.catIdx + (v === 'p' ? -1 : 1), v); jumpList(); requestAnimationFrame(jumpList); return; }
+    if (act === 'sel') {
+      var prevSel = st.sel;
+      st.sel = prevSel === id ? null : id;
+      var mark = function (rid, on) {
+        if (!rid) return true;
+        var r = document.getElementById('svc-' + String(rid).replace(/:/g, '-'));
+        if (!r) return false;
+        var box = r.querySelector('.box'), bk = r.querySelector('.row-book');
+        if (on) {
+          r.classList.add('sel');
+          if (box) box.innerHTML = ICO.checkWhite;
+          if (!bk) {
+            var d = document.createElement('div');
+            d.className = 'row-book';
+            d.innerHTML = '<button class="btn btn--sm" data-act="book" data-id="' + esc(rid) + '">' + esc(l.book) + '</button>';
+            r.appendChild(d);
+          }
+        } else {
+          r.classList.remove('sel');
+          if (box) box.innerHTML = '';
+          if (bk) bk.parentNode.removeChild(bk);
+        }
+        return true;
+      };
+      if (!(mark(prevSel, false) && mark(st.sel, true))) render();
+      return;
+    }
+    if (act === 'more') {
+      st.exp[id] = !st.exp[id];
+      var wrap = el.parentNode, pEl = wrap ? wrap.querySelector('p') : null;
+      if (pEl) {
+        if (st.exp[id]) pEl.classList.remove('clamp'); else pEl.classList.add('clamp');
+        el.textContent = st.exp[id] ? l.less : l.more;
+      } else render();
+      return;
+    }
+    if (act === 'pop') {
+      e.preventDefault();
+      setCat(+i, 'n', id);
+      setTimeout(function () { jumpItem(id); }, 60);
+      return;
+    }
+    if (act === 'book') {
+      var f = findItem(id); if (!f) return;
+      st.bk = { name: svcName(f.it), m: f.it.m, p: f.it.p, cat: t(f.cat.n) };
+      st.step = 1; st.date = null; st.time = null; st.done = false; st.err = '';
+      render(); return;
+    }
+    if (act === 'prod') { st.prodPage += +v; render(); return; }
+    if (act === 'faq') { st.faq = st.faq === +i ? -1 : +i; render(); return; }
+    if (act === 'folder') { st.gal = id; render({ top: true }); return; }
+    if (act === 'galback') { st.gal = null; render({ top: true }); return; }
+    if (act === 'lb') { st.lb = el.getAttribute('data-src'); render(); return; }
+    if (act === 'lbclose') { st.lb = null; render(); return; }
+    if (act === 'bclose') { st.bk = null; st.done = false; render(); return; }
+    if (act === 'day') { st.date = v; st.time = null; st.err = ''; render(); return; }
+    if (act === 'slot') { st.time = v; st.err = ''; render(); return; }
+    if (act === 'staff') { st.staff = v; render(); return; }
+    if (act === 'week') { st.weekOff += +v; render(); return; }
+    if (act === 'bnext') {
+      if (!st.date || !st.time) { st.err = l.booking.needDate; render(); return; }
+      st.step = 2; st.err = ''; render(); return;
+    }
+    if (act === 'bback') { st.step = 1; st.err = ''; render(); return; }
+    if (act === 'bsubmit') {
+      if (!st.fn.trim() || !st.ln.trim() || !st.em.trim() || !st.ph.trim()) { st.err = sr ? 'Popunite sva obavezna polja.' : 'Fill in all required fields.'; render(); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(st.em.trim())) { st.err = sr ? 'Unesite ispravan mejl, sa @ u adresi.' : 'Enter a valid email address with @.'; render(); return; }
+      if (st.ph.replace(/\D/g, '').length < 8) { st.err = sr ? 'Unesite ispravan broj telefona, samo cifre.' : 'Enter a valid phone number, digits only.'; render(); return; }
+      st.done = true; st.err = ''; render(); return;
+    }
+    if (act === 'csend') {
+      if (!st.cName.trim() || !st.cEm.trim() || !st.cNote.trim()) { st.cErr = sr ? 'Popunite sva obavezna polja.' : 'Fill in all required fields.'; render(); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(st.cEm.trim())) { st.cErr = sr ? 'Unesite ispravan mejl, sa @ u adresi.' : 'Enter a valid email address with @.'; render(); return; }
+      if (st.cPh.trim() && st.cPh.replace(/\D/g, '').length < 8) { st.cErr = sr ? 'Unesite ispravan broj telefona.' : 'Enter a valid phone number.'; render(); return; }
+      st.cSent = true; st.cErr = ''; render(); return;
+    }
+  });
+
+  document.addEventListener('input', function (e) {
+    var f = e.target.getAttribute && e.target.getAttribute('data-f');
+    if (!f) return;
+    var val = e.target.value;
+    if (f === 'ph' || f === 'cPh') { val = val.replace(/[^0-9+ ]/g, ''); e.target.value = val; }
+    st[f] = val;
+  });
+
+  var raf = 0;
+  window.addEventListener('scroll', function () {
+    if (raf) return;
+    raf = requestAnimationFrame(function () { raf = 0; trackActive(); reveal(); });
+  }, { passive: true });
+  var rz;
+  window.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(render, 180); });
+
+  /* deep link: ?usluga=<id> */
+  (function () {
+    var q = new URLSearchParams(location.search).get('usluga'), s = null;
+    try { s = sessionStorage.getItem('bq-cat'); sessionStorage.removeItem('bq-cat'); } catch (er) {}
+    if (page === 'home') {
+      var key = q || s;
+      if (key) for (var i = 0; i < D.CATS.length; i++) if (D.CATS[i].id === key) { st.catIdx = i; break; }
+    }
+    if (q && page === 'gallery') st.gal = q;
+    /* keep every image the sections swap through warm in the browser cache */
+    var pre = [], j;
+    for (j = 0; j < D.CATS.length; j++) if (D.CATS[j].img) pre.push(D.CATS[j].img);
+    for (j = 0; j < D.PRODUCTS.length; j++) if (D.PRODUCTS[j].img) pre.push(D.PRODUCTS[j].img);
+    if (D.POPULAR_IMG) Object.keys(D.POPULAR_IMG).forEach(function (k) { if (D.POPULAR_IMG[k]) pre.push(D.POPULAR_IMG[k]); });
+    setTimeout(function () { pre.forEach(function (u) { var im = new Image(); im.decoding = 'async'; im.src = u; }); }, 300);
+  })();
+
+  render();
+  (function () {
+    var sp = document.getElementById("splash");
+    if (!sp) return;
+    sp.className = "off";
+    setTimeout(function () { if (sp.parentNode) sp.parentNode.removeChild(sp); }, 450);
+  })();
+  if (location.hash) setTimeout(function () { jump(location.hash.slice(1)); }, 80);
+})();
+
+</script>
 </body>
 </html>

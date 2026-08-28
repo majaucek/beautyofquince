@@ -43,7 +43,7 @@ input,select,textarea{font-family:inherit;font-size:16px}
 .brand img{width:36px;height:36px;border-radius:50%;object-fit:cover;object-position:50% 42%}
 .brand span{font-family:var(--serif);font-size:20px;font-weight:600;letter-spacing:.01em;white-space:nowrap}
 .nav-links{display:flex;align-items:center;gap:4px}
-.nav-link{background:none;border:0;cursor:pointer;font-size:14.5px;color:var(--ink);padding:8px 12px;border-radius:999px;display:flex;align-items:center;gap:6px;letter-spacing:.01em;transition:background .2s,color .2s}
+.nav-link{background:none;border:0;cursor:pointer;font-size:14.5px;color:var(--ink);padding:8px 10px;white-space:nowrap;border-radius:999px;display:flex;align-items:center;gap:6px;letter-spacing:.01em;transition:background .2s,color .2s}
 .nav-link:hover{background:#F7F0E6}
 .nav-link.act{background:var(--beige);color:var(--acc-d);box-shadow:inset 0 0 0 1px rgba(168,123,74,.35)}
 .nav-spacer{flex:1 1 auto}
@@ -315,6 +315,7 @@ h1,h2,h3,h4{margin:0}
 .rv-s.in{opacity:1;transform:none}
 
 /* --- responsive --- */
+@media (max-width:1099px){.nav-phone{display:none}}
 @media (max-width:999px){
   .grid2,.grid2-tight,.offer-split,.rev-grid{grid-template-columns:1fr;gap:34px}
   .grid3{grid-template-columns:1fr 1fr}
@@ -746,7 +747,7 @@ const GALLERY = {
 const T = {
   s: {
     langName: "Srpski",
-    nav: { services: "Usluge", about: "O nama", gallery: "Galerija", contact: "Kontakt", home: "Početna" },
+    nav: { services: "Usluge", products: "Proizvodi", about: "O nama", gallery: "Galerija", contact: "Kontakt", home: "Početna" },
     cta: "Zakaži termin",
     ctaLong: "Zakažite vaš termin",
     heroEyebrow: "Zvezdara, Beograd · kozmetički salon od 2017. godine",
@@ -910,7 +911,7 @@ const T = {
   },
   e: {
     langName: "English",
-    nav: { services: "Services", about: "About", gallery: "Gallery", contact: "Contact", home: "Home" },
+    nav: { services: "Services", products: "Products", about: "About", gallery: "Gallery", contact: "Contact", home: "Home" },
     cta: "Book now",
     ctaLong: "Book your appointment",
     heroEyebrow: "Zvezdara, Belgrade · a beauty salon since 2017",
@@ -1150,11 +1151,13 @@ window.BQ_DATA = { INFO: INFO, RATINGS: RATINGS, REVIEWS: REVIEWS, STAFF: STAFF,
     for (i = 0; i < cats.length; i++) ddItems += '<a href="' + PAGES.home + '?usluga=' + cats[i].id + '#cenovnik" data-act="cat" data-i="' + i + '">' + esc(t(cats[i].n)) + '</a>';
     var svcAct = page === 'home' && st.active === 'cenovnik' ? ' act' : '';
     var conAct = page === 'home' && st.active === 'kontakt' ? ' act' : '';
+    var prdAct = page === 'home' && st.active === 'proizvodi' ? ' act' : '';
     return '<div class="navbar"><div class="nav">' +
       '<a class="brand" href="' + PAGES.home + '"><img src="uploads/logo.jpg" alt="Beauty of Quince"><span>Beauty of Quince</span></a>' +
       '<div class="nav-links">' +
         '<div style="position:relative"><button class="nav-link' + svcAct + '" data-act="dd">' + esc(l.nav.services) + '<span style="font-size:9px;opacity:.6">&#9660;</span></button>' +
         (st.dd ? '<div class="dd">' + ddItems + '</div>' : '') + '</div>' +
+        '<a class="nav-link' + prdAct + '" href="' + PAGES.home + '#proizvodi" data-act="proizvodi">' + esc(l.nav.products) + '</a>' +
         '<a class="nav-link' + (page === 'about' ? ' act' : '') + '" href="' + PAGES.about + '">' + esc(l.nav.about) + '</a>' +
         '<a class="nav-link' + (page === 'gallery' ? ' act' : '') + '" href="' + PAGES.gallery + '">' + esc(l.nav.gallery) + '</a>' +
         '<a class="nav-link' + conAct + '" href="' + PAGES.home + '#kontakt" data-act="kontakt">' + esc(l.nav.contact) + '</a>' +
@@ -1175,6 +1178,7 @@ window.BQ_DATA = { INFO: INFO, RATINGS: RATINGS, REVIEWS: REVIEWS, STAFF: STAFF,
     return '<div class="scrim" data-act="closemenu"></div><div class="msheet">' +
       '<button class="m-link" data-act="msvc"><span>' + esc(l.nav.services) + '</span><span class="m-chev' + (st.mSvc ? ' open' : '') + '">' + ICO.chev + '</span></button>' +
       (st.mSvc ? '<div style="display:flex;flex-direction:column;animation:bqrise .2s ease-out">' + out + '</div>' : '') +
+      '<a class="m-link" href="' + PAGES.home + '#proizvodi" data-act="proizvodi">' + esc(l.nav.products) + '</a>' +
       '<a class="m-link" href="' + PAGES.about + '">' + esc(l.nav.about) + '</a>' +
       '<a class="m-link" href="' + PAGES.gallery + '">' + esc(l.nav.gallery) + '</a>' +
       '<a class="m-link" href="' + PAGES.home + '#kontakt" data-act="kontakt">' + esc(l.nav.contact) + '</a>' +
@@ -1339,7 +1343,7 @@ window.BQ_DATA = { INFO: INFO, RATINGS: RATINGS, REVIEWS: REVIEWS, STAFF: STAFF,
         '<img src="' + p.img + '" alt="' + esc(p.n) + '" decoding="async" fetchpriority="' + (vis ? 'high' : 'low') + '"><div style="padding:20px">' +
         '<h3>' + esc(p.n) + '</h3><p style="font-size:14px;line-height:1.6;color:#6E6155;margin:0">' + esc(t(p.u)) + '</p></div></div>';
     }
-    return '<section class="sec"><div class="wrap rv">' +
+    return '<section class="sec" id="proizvodi"><div class="wrap rv">' +
       '<div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px">' +
       '<div><h2 class="h2">' + esc(l.productsTitle) + '</h2><p class="p">' + esc(l.productsSub) + '</p></div>' +
       '<div style="display:flex;gap:8px"><button class="arrow" data-act="prod" data-v="-1">&larr;</button><button class="arrow" data-act="prod" data-v="1">&rarr;</button></div></div>' +
@@ -1572,7 +1576,7 @@ window.BQ_DATA = { INFO: INFO, RATINGS: RATINGS, REVIEWS: REVIEWS, STAFF: STAFF,
   function trackActive() {
     if (page !== 'home') return;
     var y = window.innerHeight * 0.42, cur = null;
-    ['cenovnik', 'faq', 'kontakt'].forEach(function (id) {
+    ['cenovnik', 'proizvodi', 'faq', 'kontakt'].forEach(function (id) {
       var el = document.getElementById(id); if (!el) return;
       var r = el.getBoundingClientRect();
       if (r.top <= y && r.bottom >= 100) cur = id;
@@ -1580,9 +1584,10 @@ window.BQ_DATA = { INFO: INFO, RATINGS: RATINGS, REVIEWS: REVIEWS, STAFF: STAFF,
     if (cur !== st.active) {
       st.active = cur;
       var links = document.querySelectorAll('.nav-links .nav-link');
-      if (links.length === 4) {
+      if (links.length === 5) {
         links[0].classList.toggle('act', cur === 'cenovnik');
-        links[3].classList.toggle('act', cur === 'kontakt');
+        links[1].classList.toggle('act', cur === 'proizvodi');
+        links[4].classList.toggle('act', cur === 'kontakt');
       }
     }
   }
@@ -1632,6 +1637,7 @@ window.BQ_DATA = { INFO: INFO, RATINGS: RATINGS, REVIEWS: REVIEWS, STAFF: STAFF,
     if (act === 'closemenu') { st.menu = false; st.mSvc = false; render(); return; }
     if (act === 'msvc') { st.mSvc = !st.mSvc; render(); return; }
     if (act === 'toprice') { if (page === 'home') { e.preventDefault(); jump('cenovnik'); } else location.href = PAGES.home + '#cenovnik'; return; }
+    if (act === 'proizvodi') { if (page === 'home') { e.preventDefault(); st.menu = false; render(); jump('proizvodi'); } return; }
     if (act === 'kontakt') { if (page === 'home') { e.preventDefault(); st.menu = false; render(); jump('kontakt'); } return; }
     if (act === 'cat') {
       e.preventDefault();
